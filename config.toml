@@ -1,0 +1,18 @@
+baseURL = ""
+languageCode = "en-us"
+title = "A Rambling On"
+theme = "ananke"
+themesDir = "themes"
+publishdir = "public"
+
+DefaultContentLanguage = "en"
+enableRobotsTXT = true
+MetaDataFormat = "yaml"
+SectionPagesMenu = "main"
+Paginate = 6 # this is set low for demonstrating with dummy content. Set to a higher number
+
+[params]
+  twitter = "https://twitter.com/keschh"
+  github = "https://github.com/kristianeschenburg"
+  linkedin = "https://www.linkedin.com/in/kristianeschenburg/"
+  recent_posts_number = 2
