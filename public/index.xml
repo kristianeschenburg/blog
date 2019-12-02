@@ -2,30 +2,30 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>A Rambling On</title>
-    <link>https://kristianeschenburg.github.io/</link>
+    <link>/</link>
     <description>Recent content on A Rambling On</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 27 Aug 2019 02:14:14 +0000</lastBuildDate>
     
-	<atom:link href="https://kristianeschenburg.github.io/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Dose-Response Curves and Biomarker Diagnostic Power</title>
-      <link>https://kristianeschenburg.github.io/posts/dose-response/</link>
+      <link>/posts/dose-response/</link>
       <pubDate>Tue, 27 Aug 2019 02:14:14 +0000</pubDate>
       
-      <guid>https://kristianeschenburg.github.io/posts/dose-response/</guid>
+      <guid>/posts/dose-response/</guid>
       <description>&lt;p&gt;The other day, one of my friends and fellow PhD colleagues (I&amp;rsquo;ll refer to him as &lt;strong&gt;Dr. A&lt;/strong&gt;) asked me if I knew anything about assessing biomarker diagnostic power.  He went on to describe his clinical problem.  I&amp;rsquo;ll try to describe his research problem here (but will likely mess up some of the relevant details, as his research pertains to generating induced pluripotent cardiac stem cells, which I have little to no experience with):&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Quick Note: Initialize Python List With Prespecified Size</title>
-      <link>https://kristianeschenburg.github.io/posts/list-size/</link>
+      <link>/posts/list-size/</link>
       <pubDate>Wed, 21 Aug 2019 01:12:32 +0000</pubDate>
       
-      <guid>https://kristianeschenburg.github.io/posts/list-size/</guid>
+      <guid>/posts/list-size/</guid>
       <description>&lt;p&gt;I wanted to make a quick note about something I found incredibly helpful the other day.&lt;/p&gt;
 
 &lt;p&gt;Lists (or ArrayLists, as new Computer Science students are often taught in their CS 101 courses), are a data strucures that are fundamentally based on arrays, but with additional methods associated with them.  Lists are generally filled with an &lt;code&gt;append&lt;/code&gt; method, that fills indices in this array.  Lists are often useful in the case where the number of intial spots that will be filled is unknown.&lt;/p&gt;</description>
@@ -33,10 +33,10 @@
     
     <item>
       <title>The Delta Method</title>
-      <link>https://kristianeschenburg.github.io/posts/delta-method/</link>
+      <link>/posts/delta-method/</link>
       <pubDate>Tue, 19 Mar 2019 12:43:32 +0000</pubDate>
       
-      <guid>https://kristianeschenburg.github.io/posts/delta-method/</guid>
+      <guid>/posts/delta-method/</guid>
       <description>&lt;p&gt;Here, we&amp;rsquo;ll look at various applications of the &lt;a href=&#34;https://en.wikipedia.org/wiki/Delta_method&#34;&gt;Delta Method&lt;/a&gt;, especially in the context of variance stabilizing transformations, along with looking at the confidence intervals of estimates.&lt;/p&gt;
 
 &lt;p&gt;The Delta Method is used as a way to approximate the &lt;a href=&#34;https://en.wikipedia.org/wiki/Standard_error&#34;&gt;Standard Error&lt;/a&gt; of transformations of random variables, and is based on a &lt;a href=&#34;https://en.wikipedia.org/wiki/Taylor_series&#34;&gt;Taylor Series&lt;/a&gt; approximation.&lt;/p&gt;</description>
@@ -44,19 +44,19 @@
     
     <item>
       <title>Mahalanobis Distance: A Distributional Exploration of Brain Connectivity</title>
-      <link>https://kristianeschenburg.github.io/posts/mahalanobis/</link>
+      <link>/posts/mahalanobis/</link>
       <pubDate>Fri, 07 Dec 2018 05:12:32 +0000</pubDate>
       
-      <guid>https://kristianeschenburg.github.io/posts/mahalanobis/</guid>
+      <guid>/posts/mahalanobis/</guid>
       <description>&lt;p&gt;For one of the projects I&amp;rsquo;m working on, I have an array of multivariate data relating to brain connectivity patterns.  Briefly, each brain is represented as a surface mesh, which we represent as a graph $G = (V,E)$, where $V$ is a set of $n$ vertices, and $E$ are the set of edges between vertices.&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Convergence In Probability Using Python</title>
-      <link>https://kristianeschenburg.github.io/posts/convergence/</link>
+      <link>/posts/convergence/</link>
       <pubDate>Wed, 28 Nov 2018 13:12:32 +0000</pubDate>
       
-      <guid>https://kristianeschenburg.github.io/posts/convergence/</guid>
+      <guid>/posts/convergence/</guid>
       <description>&lt;p&gt;I&amp;rsquo;m going over &lt;strong&gt;Chapter 5&lt;/strong&gt; in Casella and Berger&amp;rsquo;s (CB) &amp;ldquo;Statistical Inference&amp;rdquo;, specifically &lt;strong&gt;Section 5.5: Convergence Concepts&lt;/strong&gt;, and wanted to document the topic of &lt;a href=&#34;https://en.wikipedia.org/wiki/Convergence_of_random_variables#Convergence_in_probability&#34;&gt;convergence in probability&lt;/a&gt; with some plots demonstrating the concept.&lt;/p&gt;
 
 &lt;p&gt;From CB, we have the definition of &lt;em&gt;convergence in probability&lt;/em&gt;: a sequence of random variables $X_{1}, X_{2}, &amp;hellip; X_{n}$ converges in probability to a random variable $X$, if for every $\epsilon &amp;gt; 0$,&lt;/p&gt;</description>
@@ -64,10 +64,10 @@
     
     <item>
       <title>Relationship Between Poisson and Multinomial</title>
-      <link>https://kristianeschenburg.github.io/posts/poisson-multinomial/</link>
+      <link>/posts/poisson-multinomial/</link>
       <pubDate>Thu, 08 Nov 2018 01:12:32 +0000</pubDate>
       
-      <guid>https://kristianeschenburg.github.io/posts/poisson-multinomial/</guid>
+      <guid>/posts/poisson-multinomial/</guid>
       <description>&lt;p&gt;In this post, I&amp;rsquo;m going to briefly cover the relationship between the Poisson distribution and the Multinomial distribution.&lt;/p&gt;
 
 &lt;p&gt;Let&amp;rsquo;s say that we have a set of independent, Poisson-distributed random variables $Y_{1}, Y_{2}&amp;hellip; Y_{k}$ with rate parameters $\lambda_{1}, \lambda_{2}, &amp;hellip;\lambda_{k}$.  We can model the sum of these random variables as a new random variable $N = \sum_{i=1}^{k} Y_{i}$.&lt;/p&gt;</description>
@@ -75,82 +75,82 @@
     
     <item>
       <title>Brains, C&#43;&#43;, and Data Science: Back to the Foundations</title>
-      <link>https://kristianeschenburg.github.io/posts/needy_cpp/</link>
+      <link>/posts/needy_cpp/</link>
       <pubDate>Mon, 29 Oct 2018 08:12:32 +0000</pubDate>
       
-      <guid>https://kristianeschenburg.github.io/posts/needy_cpp/</guid>
+      <guid>/posts/needy_cpp/</guid>
       <description>&lt;p&gt;While most of my day-to-day research entails writing Python code, I also make heavy use of pre-written software.  Most software comes pre-compiled, but whenever possible, I like to get access to the source code.  I&amp;rsquo;m going to refer to some modifications I made to pre-existing packages &amp;ndash; you can find those &lt;a href=&#34;https://github.com/kristianeschenburg/ptx3&#34;&gt;in my repository here.&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Image Transformations using OpenCV: A Primer</title>
-      <link>https://kristianeschenburg.github.io/posts/opencv-image-transformations/</link>
+      <link>/posts/opencv-image-transformations/</link>
       <pubDate>Sat, 01 Sep 2018 17:12:32 +0000</pubDate>
       
-      <guid>https://kristianeschenburg.github.io/posts/opencv-image-transformations/</guid>
+      <guid>/posts/opencv-image-transformations/</guid>
       <description>&lt;p&gt;I&amp;rsquo;ve been toying around with &lt;a href=&#34;https://opencv.org/&#34;&gt;openCV&lt;/a&gt; for generating MRI images with synethetic motion injected into them.  I&amp;rsquo;d never used this library before, so I tested a couple examples.  Below I detail a few tools that I found interesting, and that can quickly be used to generate image transformations.&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Two Weeks of Open Science: A Rekindled Flame</title>
-      <link>https://kristianeschenburg.github.io/posts/neurohackademy-open-science/</link>
+      <link>/posts/neurohackademy-open-science/</link>
       <pubDate>Fri, 17 Aug 2018 01:12:33 +0000</pubDate>
       
-      <guid>https://kristianeschenburg.github.io/posts/neurohackademy-open-science/</guid>
+      <guid>/posts/neurohackademy-open-science/</guid>
       <description>&lt;p&gt;I recently attended &lt;a href=&#34;http://neurohackademy.org/&#34;&gt;Neurohackademy 2018&lt;/a&gt;, hosted by the University of Washington&amp;rsquo;s &lt;a href=&#34;https://escience.washington.edu/&#34;&gt;eScience Institute&lt;/a&gt;, and organized by Dr. Ariel Rokem and Dr. Tal Yarkoni.&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Enabling Custom Jekyll Plugins with TravisCI</title>
-      <link>https://kristianeschenburg.github.io/posts/custom-plugins-with-travisci/</link>
+      <link>/posts/custom-plugins-with-travisci/</link>
       <pubDate>Sun, 12 Aug 2018 02:14:14 +0000</pubDate>
       
-      <guid>https://kristianeschenburg.github.io/posts/custom-plugins-with-travisci/</guid>
+      <guid>/posts/custom-plugins-with-travisci/</guid>
       <description>&lt;p&gt;I just learned about &lt;a href=&#34;https://travis-ci.org/&#34;&gt;TravisCI&lt;/a&gt; (actually, about continuous integration (CI) in general) after attending &lt;a href=&#34;http://neurohackademy.org/&#34;&gt;Neurohackademy 2018&lt;/a&gt;.  We learned about CI from the perspective of ensuring that your code builds properly when you update files in your packages, incorporate new methods, refactor your code, etc.  Pretty neat.&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Rendering LaTex In Markdown Using Jekyll</title>
-      <link>https://kristianeschenburg.github.io/posts/rendering-latex/</link>
+      <link>/posts/rendering-latex/</link>
       <pubDate>Sat, 11 Aug 2018 02:14:14 +0000</pubDate>
       
-      <guid>https://kristianeschenburg.github.io/posts/rendering-latex/</guid>
+      <guid>/posts/rendering-latex/</guid>
       <description>&lt;p&gt;In putting together this blog, I wanted to be able to talk about various mathematical topics that I found interesting, which inevitably lead to using LaTex in my posts.&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Exploring Dynamical Systems With DMD: Part 2</title>
-      <link>https://kristianeschenburg.github.io/posts/dynamic-mode-decomposition-part-2/</link>
+      <link>/posts/dynamic-mode-decomposition-part-2/</link>
       <pubDate>Thu, 24 May 2018 11:30:43 +0000</pubDate>
       
-      <guid>https://kristianeschenburg.github.io/posts/dynamic-mode-decomposition-part-2/</guid>
+      <guid>/posts/dynamic-mode-decomposition-part-2/</guid>
       <description>&lt;p&gt;In my previous post on &lt;a href=&#34;{% post_url 2018-05-24-dynamic-mode-decomposition-part-1 %}&#34;&gt;Dynamic Mode Decomposition&lt;/a&gt;, I discussed the foundations of DMD as a means for linearizing a dynamical system.  In this post, I want to look at a way in which we can use rank-updates to incorporate new information into the spectral decomposition of our linear operator, $A$, in the event that we are generating online measurements from our dynamical system.  If you want a more-detailed overview of this topic, &lt;a href=&#34;https://arxiv.org/abs/1707.02876&#34;&gt;Zhang 2017&lt;/a&gt; developed the theory, along with open source code, for testing this method.&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Exploring Dynamical Systems With DMD: Part 1</title>
-      <link>https://kristianeschenburg.github.io/posts/dynamic-mode-decomposition-part-1/</link>
+      <link>/posts/dynamic-mode-decomposition-part-1/</link>
       <pubDate>Tue, 22 May 2018 14:02:52 +0000</pubDate>
       
-      <guid>https://kristianeschenburg.github.io/posts/dynamic-mode-decomposition-part-1/</guid>
+      <guid>/posts/dynamic-mode-decomposition-part-1/</guid>
       <description>&lt;p&gt;In the next two posts, I want to talk briefly about an algorithm called Dynamic Mode Decomposition (DMD).  DMD is a spatiotemporal modal decomposition technique that can be used to identify spatial patterns in a signal (modes), along with the time course of these spatial patterns (dynamics).  As such, the algorithm assumes that the input data has a both a spatial and a temporal component.  We are interested in modeling &lt;em&gt;how&lt;/em&gt; the system evolves over time.&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Rank-One Updates</title>
-      <link>https://kristianeschenburg.github.io/posts/rank-one-updates/</link>
+      <link>/posts/rank-one-updates/</link>
       <pubDate>Fri, 11 May 2018 16:53:45 +0000</pubDate>
       
-      <guid>https://kristianeschenburg.github.io/posts/rank-one-updates/</guid>
+      <guid>/posts/rank-one-updates/</guid>
       <description>&lt;p&gt;In this post, I&amp;rsquo;m going to go over some examples of rank-one updates of matrices.  To compute rank-one updates, we rely on the Sherman-Morrison-Woodbury theorem.  From the previous post on &lt;a href=&#34;{% post_url 2018-05-08-blockwise-matrix-inversion %}&#34;&gt;Blockwise Matrix Inversion&lt;/a&gt;, recall that, given a matrix and its inverse&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Blockwise Matrix Inversions</title>
-      <link>https://kristianeschenburg.github.io/posts/blockwise-matrix-inversion/</link>
+      <link>/posts/blockwise-matrix-inversion/</link>
       <pubDate>Tue, 08 May 2018 23:24:17 -0700</pubDate>
       
-      <guid>https://kristianeschenburg.github.io/posts/blockwise-matrix-inversion/</guid>
+      <guid>/posts/blockwise-matrix-inversion/</guid>
       <description>&lt;p&gt;I&amp;rsquo;m taking a Statistics course on the theory of linear models, which covers Gauss-Markov models and various extensions of them.  Sometimes, when dealing with partitioned matrices, and commonly Multivariate Normal Distributions, we&amp;rsquo;ll often need to invert matrices in a blockwise manner.  This has happened often enough during this course (coincidentally was necessary knowledge for a midterm question), so I figured I should just document some of the inversion lemmas.&lt;/p&gt;</description>
     </item>
     
