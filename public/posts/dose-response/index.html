@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>A Rambling On  | Dose-Response Curves and Biomarker Diagnostic Power</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.59.0" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    
+    
+      <link href="/dist/css/app.d98f2eb6bcd1eaedb7edf166bd16af26.css" rel="stylesheet">
+    
+
+    
+
+    
+      
+    
+
+    
+    
+    <meta property="og:title" content="Dose-Response Curves and Biomarker Diagnostic Power" />
+<meta property="og:description" content="The other day, one of my friends and fellow PhD colleagues (I&rsquo;ll refer to him as Dr. A) asked me if I knew anything about assessing biomarker diagnostic power.  He went on to describe his clinical problem.  I&rsquo;ll try to describe his research problem here (but will likely mess up some of the relevant details, as his research pertains to generating induced pluripotent cardiac stem cells, which I have little to no experience with):" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kristianeschenburg.github.io/posts/dose-response/" />
+<meta property="article:published_time" content="2019-08-27T02:14:14+00:00" />
+<meta property="article:modified_time" content="2019-08-27T02:14:14+00:00" />
+<meta itemprop="name" content="Dose-Response Curves and Biomarker Diagnostic Power">
+<meta itemprop="description" content="The other day, one of my friends and fellow PhD colleagues (I&rsquo;ll refer to him as Dr. A) asked me if I knew anything about assessing biomarker diagnostic power.  He went on to describe his clinical problem.  I&rsquo;ll try to describe his research problem here (but will likely mess up some of the relevant details, as his research pertains to generating induced pluripotent cardiac stem cells, which I have little to no experience with):">
+
+
+<meta itemprop="datePublished" content="2019-08-27T02:14:14&#43;00:00" />
+<meta itemprop="dateModified" content="2019-08-27T02:14:14&#43;00:00" />
+<meta itemprop="wordCount" content="1956">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Dose-Response Curves and Biomarker Diagnostic Power"/>
+<meta name="twitter:description" content="The other day, one of my friends and fellow PhD colleagues (I&rsquo;ll refer to him as Dr. A) asked me if I knew anything about assessing biomarker diagnostic power.  He went on to describe his clinical problem.  I&rsquo;ll try to describe his research problem here (but will likely mess up some of the relevant details, as his research pertains to generating induced pluripotent cardiac stem cells, which I have little to no experience with):"/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+
+   
+
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="https://kristianeschenburg.github.io" class="f3 fw2 hover-white no-underline white-90 dib">
+      A Rambling On
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/about/" title="About page">
+              About
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/code/" title="Code page">
+              Code
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/posts/" title="Posts page">
+              Posts
+            </a>
+          </li>
+          
+        </ul>
+      
+      
+
+
+
+<a href="https://twitter.com/keschh" target="_blank" class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel="noopener" aria-label="follow on Twitter——Opens in a new window">
+  <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/></svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+<a href="https://www.linkedin.com/in/kristianeschenburg/" target="_blank" class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel="noopener" aria-label="follow on LinkedIn——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 65 65;" version="1.1" viewBox="0 0 65 65" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M50.837,48.137V36.425c0-6.275-3.35-9.195-7.816-9.195  c-3.604,0-5.219,1.983-6.119,3.374V27.71h-6.79c0.09,1.917,0,20.427,0,20.427h6.79V36.729c0-0.609,0.044-1.219,0.224-1.655  c0.49-1.22,1.607-2.483,3.482-2.483c2.458,0,3.44,1.873,3.44,4.618v10.929H50.837z M22.959,24.922c2.367,0,3.842-1.57,3.842-3.531  c-0.044-2.003-1.475-3.528-3.797-3.528s-3.841,1.524-3.841,3.528c0,1.961,1.474,3.531,3.753,3.531H22.959z M34,64  C17.432,64,4,50.568,4,34C4,17.431,17.432,4,34,4s30,13.431,30,30C64,50.568,50.568,64,34,64z M26.354,48.137V27.71h-6.789v20.427  H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+<a href="https://github.com/kristianeschenburg" target="_blank" class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel="noopener" aria-label="follow on Github——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+
+    <header class="mt4 w-100">
+      <p class="f6 b avenir tracked">
+
+          
+
+        POSTS
+      </p>
+      <h1 class="f1 avenir mb1">Dose-Response Curves and Biomarker Diagnostic Power</h1>
+      
+
+      
+
+      <time class="f6 mv4 dib tracked" datetime="2019-08-27T02:14:14Z">August 27, 2019</time>
+
+      
+
+      
+        <span class="f6 mv4 dib tracked"> - 10 minutes read</span>
+        <span class="f6 mv4 dib tracked"> - 1956 words</span>
+      
+    </header>
+
+    <section class="nested-copy-line-height lh-copy avenir f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p>The other day, one of my friends and fellow PhD colleagues (I&rsquo;ll refer to him as <strong>Dr. A</strong>) asked me if I knew anything about assessing biomarker diagnostic power.  He went on to describe his clinical problem.  I&rsquo;ll try to describe his research problem here (but will likely mess up some of the relevant details, as his research pertains to generating induced pluripotent cardiac stem cells, which I have little to no experience with):</p>
+
+<ul>
+<li><p><strong>Dr. A</strong>:</p>
+
+<ul>
+<li><p>&ldquo;So chemotherapy is meant to combat cancer.  But some clinicians, and their patients, have found that some forms of chemotherapy and anti-cancer drugs later result in problems with the heart and vasculature &ndash; these problems are collectively referred to as &lsquo;cardiotoxicity&rsquo;.</p></li>
+
+<li><p>We&rsquo;re interested in developing biomarkers that will help us identify which patients might be susceptible to cardiotoxicity, and in assessing the predictive power of these biomarkers.  Can you help me?&rdquo;</p></li>
+</ul></li>
+
+<li><p><strong>Me</strong>:
+&ldquo;Sure!&rdquo;</p></li>
+</ul>
+
+<p>What follows will be my exploration into what <strong>Dr. A</strong> called <a href="https://en.wikipedia.org/wiki/Dose%E2%80%93response_relationship">dose-response curves</a>, and my approach on how to use these curves to assess biomarker diagnostic power.  I&rsquo;ll do a walk through of some Python code that I&rsquo;ve written up, where I&rsquo;ll examine dose-response curves and their diagnostic power using the <em>receiver operating characteristic</em> (<a href="https://en.wikipedia.org/wiki/Receiver_operating_characteristic">ROC</a>) and the closely related <em>area under the curve</em> (<a href="https://en.wikipedia.org/wiki/Receiver_operating_characteristic#Area_under_the_curve">AUC</a>) metrics.</p>
+
+<p>If you want to see the actual dose-response curve analysis, skip to the <strong>Analyzing Synthetic Dose-Response Curves</strong> section down below.</p>
+
+<h3 id="brief-introduction-to-the-roc-and-auc">Brief Introduction to the ROC and AUC</h3>
+
+<p>I first wanted to describe to <strong>Dr. A</strong> how to use the ROC for biomarkers, so I made a brief Python tutorial for him to look at.  Below begins a more in-depth description of what I sent him.</p>
+
+<p>We start by importing some necessary libraries:</p>
+
+<pre><code class="language-python">%matplotlib inline
+import matplotlib.pyplot as plt
+from matplotlib.lines import Line2D
+
+import numpy as np
+from sklearn.metrics import auc
+</code></pre>
+
+<p>Next, we define a function to compute the ROC curve.  While <a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_curve.html">scikit-learn</a> has a function to compute the ROC, computing it yourself makes it easier to understand what the ROC curve actually represents.</p>
+
+<p>The ROC curve is essentially a curve that plots the true positive and false positive classification rates against one another, for various user-defined thresholds of the data.  We pick a biomarker level threshold &ndash; let&rsquo;s say $T$ &ndash; assign each sample a value of 0 or 1 depending on whether its measured biomarker level is greater than or less than $T$, and then compare these assignments to the <em>true</em> Case/Control classifications to compute the true and false positive rates.  We plots these rates for many $T$ to generate the ROC curve.</p>
+
+<p>The ROC let&rsquo;s you look at how sensitive your model is to various parameterizations &ndash; are you able to accurately identify Cases from Controls?  How acceptable are misclassified results?  In this situation, we don&rsquo;t want to classify someone as healthy when in fact they might develop cardiotoxicity, so we want to allow some flexibility in terms of the number of false positives generated by our model &ndash; it&rsquo;s a classic case of &ldquo;better safe than sorry&rdquo;, since the &ldquo;sorry&rdquo; outcome might be an accidental patient death.</p>
+
+<pre><code class="language-python">def roc(case, control, npoints, gte=True):
+    
+    &quot;&quot;&quot;
+    Compute ROC curve for given set of Case/Control samples.
+    
+    Parameters:
+    - - - - -
+    case: float, array
+        Samples from case patients
+    control: float, array
+        Samples from control patients
+    npoints: int
+        Number of TP/FP pairs to generate
+    gte: boolean
+        Whether control mean expected to be greater
+        than case mean.
+
+    Returns:
+    - - - -
+    specificity: float, array
+        false positive rates
+    sensitivity: float, array
+        true positive rates
+    &quot;&quot;&quot;
+
+    # make sure generating more
+    # than 1 TP/FP pair
+    # so we can plot an actual ROC curve
+    assert npoints &gt; 1
+    
+
+    # made sure case and control samples
+    # are numpy arrays
+    case = np.asarray(case)
+    control = np.asarray(control)
+    
+    # check for NaN values
+    # keep only indices without NaN
+    case_nans = np.isnan(case)
+    cont_nans = np.isnan(control)
+    nans = (case_nans + cont_nans)
+    
+    specificity = []
+    sensitivity = []
+    
+    # we'll define the min and max thresholds 
+    # based on the min and max of our data
+    conc = np.concatenate([case[~nans],control[~nans]])
+
+    # function comparison map
+    # use ```gte``` parameter
+    # if we expect controls to be less than
+    # cases, gte = False
+    # otherwise gte = True
+    comp_map = {'False': np.less,
+                'True': np.greater}
+    
+    # generate npoints equally spaced threshold values
+    # compute the false positive / true positive rates 
+    # at each threshold
+    for thresh in np.linspace(conc.min(), conc.max(), npoints):
+
+        fp = (comp_map[gte](case[~nans], thresh)).mean()
+        tn = 1-fp
+        
+        tp = (comp_map[gte](control[~nans], thresh)).mean()
+        fn = 1-tp
+        
+        specificity.append(tn)
+        sensitivity.append(tp)
+    
+    return [np.asarray(specificity), np.asarray(sensitivity)]
+</code></pre>
+
+<p>Next up, I generate 5 different datasets.  Each dataset corresponds to fake samples from a &ldquo;Control&rdquo; distribution, and a &ldquo;Case&rdquo; distribution &ndash; each is distributed according to a univariate Normal distribution.  The Control distribution remains the same in each scenario: $N(\mu = 10, \sigma = 1)$, but I change the $\mu_{Case}$ parameter of the Case distribution in each instance, such that $\mu_{Case} \in {5,6,7,8,9,10}$.</p>
+
+<p>We plot the example datasets as follows, and then compute the ROC curves for each dataset.</p>
+
+<pre><code class="language-python"># define unique means
+m1 = np.arange(5,11)
+samples = {}.fromkeys(m1)
+
+# define control distribution (this stays the same across 
+n2 = np.random.normal(loc=10, scale=1, size=2000)
+
+fig, (ax) = plt.subplots(2, 3, figsize=(15, 6))
+
+for i, ax in enumerate(fig.axes):
+
+    n1 = np.random.normal(loc=m1[i], scale=1, size=2000)
+    samples[m1[i]] = n1
+
+    ax.hist(n1, 25, alpha=0.5, label='Case', density=True,)
+    ax.hist(n2, 25, alpha=0.5, label='Control', density=True,)
+    ax.set_title('Mean: {:}, Sigma: 1'.format(m1[i]), fontsize=15)
+    ax.set_xlabel('Biomarker Measures Variable', fontsize=15)
+    ax.set_ylabel('Density', fontsize=15)
+    ax.legend()
+
+plt.tight_layout()
+</code></pre>
+
+<figure>
+    <img src='/images/posts/Example.Histograms.jpg' class="center-image" width="110%"/>
+    <figcaption>Example Case/Control datasets.</figcaption>
+</figure>
+
+<pre><code class="language-python">fig, (ax1) = plt.subplots(1, 1)
+for mean, case_data in samples.items():
+
+    [spec, sens] = roc(case_data, n2, 100, gte=True)
+    A = auc(spec, sens)
+
+    L = 'Mean: %i, AUC: %.3f' % (mean, A)
+    plt.plot(1-np.asarray(spec), np.asarray(sens), label=L)
+    plt.legend(bbox_to_anchor=(1.04,1), fontsize=15)
+    plt.xlabel('1-Specificity', fontsize=15)
+    plt.ylabel('Sensitivity', fontsize=15)
+
+    plt.title('ROC for Varying Case Distributions', fontsize=15)
+</code></pre>
+
+<figure>
+    <img src='/images/posts/Example.ROC.Curves.jpg' class="center-image" width="100%"/>
+    <figcaption>ROC curves for example datasets.</figcaption>
+</figure>
+
+<p>We see that, as the distributions become less separated, the ability to distinguish points from either distribution is diminished.  This is shown by 1) a flattening of the ROC curve towards the diagonal, along with 2) the integration of the ROC curve, which generates the AUC metric.  When the distributions are far apart (as when the $\mu_{Case} = 5$), it is quite easy for a simple model to distinguish points sampled from either distribution, meaning this hypothetical model has good diagnostic power.</p>
+
+<h3 id="analyzing-synthetic-dose-response-curves">Analyzing Synthetic Dose-Response Curves</h3>
+
+<p>We now analyze some synthetic data, generated to look like dose-response curves.  As a refresher, dose-response curves measure the behavior of some tissue cells in response to increasing levels of (generally) drugs.  The $x$-axis is the drug dose, measured in some concentration or volume, and the $y$-axis is generally some measure of cell death or survival, generally ranging from 0% to 100%.  The curves, however, look sigmoidal.  So let&rsquo;s first generate a function to create sigmoid curves.</p>
+
+<pre><code class="language-python">def sigmoid(beta, intercept, x):
+    
+    &quot;&quot;&quot;
+    Fake sigmoid function, takes in coefficient, shift, and dose values.
+    
+    Parameters:
+    - - - - -
+    beta: float
+        slope
+    intercept: float
+        negative exponential intercept
+    x: float, array
+        data samples
+        
+    Returns:
+    - - - -
+    dose_response: float, array
+        single-subject dose-response vector
+        Between 0 and 1.
+    &quot;&quot;&quot;
+    
+    dose_resonse =  1 / (1 + np.exp(-beta*x + intercept))
+    
+    return dose_resonse
+</code></pre>
+
+<p>Next, let&rsquo;s actually generate some synethetic data for a dataset of fake subjects.  I want to incorporate some variability into the Cases and Controls, so I&rsquo;ll sample the subject parameters from distributions.  In this case, for each subject, I&rsquo;ll sample the logistic curve slope coefficient from $Beta$ distributions, and the intercept from $Normal$ distributions.  We&rsquo;ll sample 1000 Cases, and 1000 Controls.</p>
+
+<p>For the slopes, we have</p>
+
+<p>$$
+\begin{align}
+\beta_{Control} &amp;\sim Beta(a=5, b=3) \\<br />
+\beta_{Case} &amp;\sim Beta(a=10, b=2) \\<br />
+\end{align}
+$$</p>
+
+<p>and for the intercepts, we have</p>
+
+<p>$$
+\begin{align}
+I_{Control} &amp;\sim Normal(\mu=0, \sigma=1) \\<br />
+I_{Case} &amp;\sim Normal(\mu=4, \sigma=1) \\<br />
+\end{align}
+$$</p>
+
+<p>As such, the dose-response curve for individual, $k$, is generated as follows:</p>
+
+<p>$$
+dr_{k} = \frac{1}{1 + e^{-(\beta_{k}X + I_{k})}}
+$$</p>
+
+<p>where $\beta_{k}$ and $I_{k}$ are the slope and intercept values for the given subject.  These distributional parameterizations are arbitrary &ndash; I just wanted to be able to incorporate variability across subjects and groups.</p>
+
+<p>Let&rsquo;s generate some random Case/Control dose-response data and plot the coefficient histograms:</p>
+
+<pre><code class="language-python"># n cases and controls
+S = 1000
+
+# dictionary of slopes and intercept values for each subject
+controls = {k: {'beta': None,
+                'intercept': None} for k in np.arange(S)}
+cases = {k: {'beta': None,
+             'intercept': None} for k in np.arange(S)}
+
+# get lists of betas and intercepts
+beta_control = []
+beta_case = []
+
+intercept_control = []
+intercept_case = []
+
+for i in np.arange(S):
+
+    controls[i]['beta'] = np.random.beta(a=5, b=3)
+    controls[i]['intercept'] = np.random.normal(loc=0, scale=1)
+
+    intercept_control.append(controls[i]['intercept'])
+    beta_control.append(controls[i]['beta'])
+
+    cases[i]['beta'] = np.random.beta(a=10, b=2)
+    cases[i]['intercept'] = np.random.normal(loc=4, scale=1)
+
+    intercept_case.append(cases[i]['intercept'])
+    beta_case.append(cases[i]['beta'])
+</code></pre>
+
+<p>Intercept histograms look like two different $$Normal$$ distributions:</p>
+
+<pre><code class="language-python">fig = plt.figure(figsize=(12, 8))
+plt.hist(intercept_control, 50, color='r', alpha=0.5, density=True, label='Control');
+plt.hist(intercept_case, 50, color='b', alpha=0.5, density=True, label='Case');
+plt.ylabel('Density', fontsize=15);
+plt.xlabel('Intercepts', fontsize=15);
+plt.title('Intercepts Coefficients By Group', fontsize=15);
+plt.legend(fontsize=15);
+plt.tight_layout()
+</code></pre>
+
+<figure>
+    <img src='/images/posts/DR.Intercepts.jpg' class="center-image" width="80%"/>
+    <figcaption>Intercept distributions for synthetic dose-response curves.</figcaption>
+</figure>
+
+<p>Slope histograms look like two different $$Beta$$ distributions:</p>
+
+<pre><code class="language-python">fig = plt.figure(figsize=(12, 8))
+plt.hist(beta_control, 50, color='r', alpha=0.5, label='Control', density=True);
+plt.hist(beta_case, 50, color='b', alpha=0.5, label='Case', density=True);
+plt.ylabel('Density', fontsize=15);
+plt.xlabel('Betas', fontsize=15);
+plt.title('Slope Coefficients By Group', fontsize=15);
+plt.legend(fontsize=15);
+plt.tight_layout()
+</code></pre>
+
+<figure>
+    <img src='/images/posts/DR.Slopes.jpg' class="center-image" width="80%"/>
+    <figcaption>Slope distributions for synthetic dose-response curves.</figcaption>
+</figure>
+
+<p>Now we&rsquo;ll generate some fake dose-response curves for each of the 1000 Controls, and 1000 Cases.  We&rsquo;ll plot a subset of these curves to visualize our cross-group curve variability.</p>
+
+<pre><code class="language-python"># define synthetic dose range
+doses = np.linspace(-15,15,500)
+dose_min = doses.min()
+shifted_dose = doses + np.abs(dose_min)
+
+fig, (ax1) = plt.subplots(figsize=(12, 8))
+
+ec50_control = []
+ec50_case = []
+
+for c in np.arange(S):
+
+    control_sample = sigmoid(controls[c]['beta'], controls[c]['intercept'], doses)
+    case_sample = sigmoid(cases[c]['beta'], cases[c]['intercept'], doses)
+
+    ec50_control.append(shifted_dose[control_sample &lt; 0.5].max())
+    ec50_case.append(shifted_dose[case_sample &lt; 0.5].max())
+
+    if (c % 15) == 0:
+
+        ax1.plot(shifted_dose, control_sample, c='r', linewidth=3, alpha=0.3)
+        ax1.plot(shifted_dose, case_sample, c='b', linewidth=3, alpha=0.3)
+
+plt.legend({})
+plt.title('Dose Response Curve', fontsize=20);
+plt.xlabel('Dose', fontsize=20);
+plt.xticks(fontsize=15)
+plt.ylabel('Response', fontsize=20);
+plt.yticks(fontsize=15)
+
+custom_lines = [Line2D([0], [0], color='r', lw=4),
+                Line2D([0], [0], color='b', lw=4)]
+plt.legend(custom_lines, ['Control', 'Case'], fontsize=20);
+</code></pre>
+
+<figure>
+    <img src='/images/posts/DR.Curves.jpg' class="center-image" width="80%"/>
+    <figcaption>Case/Control dose-response curves.</figcaption>
+</figure>
+
+<p>For our preliminary biomarker of interest, let&rsquo;s look at the <strong>ec50</strong>, which is the dose at which <em>50%</em> of the cells show some response (i.e. where our $y$-axis = 0.5), for each sample in our dataset.  We&rsquo;ll plot these doses as a function of Cases and Controls.</p>
+
+<pre><code class="language-python">fig = plt.figure(figsize=(12, 8))
+plt.hist(ec50_control, 50, color='r', alpha=0.5, label='Control', density=True);
+plt.hist(ec50_case, 50, color='b', alpha=0.5, label='Case', density=True);
+plt.legend(fontsize=20);
+plt.xlabel('ec50', fontsize=20);
+plt.xticks(fontsize=15);
+plt.ylabel('Density', fontsize=20);
+plt.yticks(fontsize=15);
+</code></pre>
+
+<figure>
+    <img src='/images/posts/DR.ec50.jpg' class="center-image" width="80%"/>
+    <figcaption>Biomarker distributions: ec50 for Cases and Controls.</figcaption>
+</figure>
+
+<p>If we select a different threshold &ndash; i.e. instead of 0.5, we can iterate over the range of 0.1 - 0.9, for example, in increments of 0.1 &ndash; we generate different biomarkers (ec10, ec20 &hellip; ec90).  We can treat each biomarker as a different classification model, and assess how powerful that model is at assessing whether someone will develop cardiotoxicity or not.  To do so, we&rsquo;ll create distributions for each biomarker (not shown), and then generate ROC curves and AUC values for each curve.</p>
+
+<figure>
+    <img src='/images/posts/DR.ecCurves.All.jpg' class="center-image" width="80%"/>
+    <figcaption>ROC curves and AUC for each ec-X biomarker level.</figcaption>
+</figure>
+
+<p>This is where my limited domain knowledge comes at a cost &ndash; I&rsquo;m not sure if the biomarkers I&rsquo;ve chosen (i.e. incremental <strong>ec</strong> values) are actually biologically relevant.  The point, however, is that each biomarker yields a different AUC, which theoretically shows that the Cases and Controls can be differentially distinguished, depending on which biomarker we choose to examine.  In this case, <strong>ec10</strong> has the most discriminative diagnostic power.</p>
+
+<p>Something I did wonder about while exploring this data was how dependent the ROC curves and AUC statistics are on sample size.  Previously, I&rsquo;d looked at rates of convergence of various estimators &ndash; the AUC should also theoretically show some convergence to a &ldquo;true&rdquo; value as $n$ increases &ndash; but I&rsquo;m not sure if it follows any sort of relevant distribution.  I imagine the AUC is domain-dependent, in that it depends on the distribution of the biomarker of interest?  Might be a good idea for another post&hellip;</p>
+
+<p>Cheers.</p><ul class="pa0">
+  
+</ul>
+<div class="mt6">
+      
+      
+      </div>
+    </section>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+    <script type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+     inlineMath: [['$','$'], ['\\(','\\)']],
+     displayMath: [['$$','$$']],
+     processEscapes: true,
+     processEnvironments: true,
+     skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+     TeX: { equationNumbers: { autoNumber: "AMS" },
+            extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+</script>
+    
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://kristianeschenburg.github.io" >
+    &copy; 2019 A Rambling On
+  </a>
+    <div>
+
+
+
+<a href="https://twitter.com/keschh" target="_blank" class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel="noopener" aria-label="follow on Twitter——Opens in a new window">
+  <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/></svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+<a href="https://www.linkedin.com/in/kristianeschenburg/" target="_blank" class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel="noopener" aria-label="follow on LinkedIn——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 65 65;" version="1.1" viewBox="0 0 65 65" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M50.837,48.137V36.425c0-6.275-3.35-9.195-7.816-9.195  c-3.604,0-5.219,1.983-6.119,3.374V27.71h-6.79c0.09,1.917,0,20.427,0,20.427h6.79V36.729c0-0.609,0.044-1.219,0.224-1.655  c0.49-1.22,1.607-2.483,3.482-2.483c2.458,0,3.44,1.873,3.44,4.618v10.929H50.837z M22.959,24.922c2.367,0,3.842-1.57,3.842-3.531  c-0.044-2.003-1.475-3.528-3.797-3.528s-3.841,1.524-3.841,3.528c0,1.961,1.474,3.531,3.753,3.531H22.959z M34,64  C17.432,64,4,50.568,4,34C4,17.431,17.432,4,34,4s30,13.431,30,30C64,50.568,50.568,64,34,64z M26.354,48.137V27.71h-6.789v20.427  H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+<a href="https://github.com/kristianeschenburg" target="_blank" class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel="noopener" aria-label="follow on Github——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+</div>
+  </div>
+</footer>
+
+    
+
+  <script src="/dist/js/app.3fc0f988d21662902933.js"></script>
+
+
+  </body>
+
+</html>

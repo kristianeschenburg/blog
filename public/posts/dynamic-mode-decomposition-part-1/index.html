@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>A Rambling On  | Exploring Dynamical Systems With DMD: Part 1</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.59.0" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    
+    
+      <link href="/dist/css/app.d98f2eb6bcd1eaedb7edf166bd16af26.css" rel="stylesheet">
+    
+
+    
+
+    
+      
+    
+
+    
+    
+    <meta property="og:title" content="Exploring Dynamical Systems With DMD: Part 1" />
+<meta property="og:description" content="In the next two posts, I want to talk briefly about an algorithm called Dynamic Mode Decomposition (DMD).  DMD is a spatiotemporal modal decomposition technique that can be used to identify spatial patterns in a signal (modes), along with the time course of these spatial patterns (dynamics).  As such, the algorithm assumes that the input data has a both a spatial and a temporal component.  We are interested in modeling how the system evolves over time." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kristianeschenburg.github.io/posts/dynamic-mode-decomposition-part-1/" />
+<meta property="article:published_time" content="2018-05-22T14:02:52+00:00" />
+<meta property="article:modified_time" content="2018-05-22T14:02:52+00:00" />
+<meta itemprop="name" content="Exploring Dynamical Systems With DMD: Part 1">
+<meta itemprop="description" content="In the next two posts, I want to talk briefly about an algorithm called Dynamic Mode Decomposition (DMD).  DMD is a spatiotemporal modal decomposition technique that can be used to identify spatial patterns in a signal (modes), along with the time course of these spatial patterns (dynamics).  As such, the algorithm assumes that the input data has a both a spatial and a temporal component.  We are interested in modeling how the system evolves over time.">
+
+
+<meta itemprop="datePublished" content="2018-05-22T14:02:52&#43;00:00" />
+<meta itemprop="dateModified" content="2018-05-22T14:02:52&#43;00:00" />
+<meta itemprop="wordCount" content="1246">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Exploring Dynamical Systems With DMD: Part 1"/>
+<meta name="twitter:description" content="In the next two posts, I want to talk briefly about an algorithm called Dynamic Mode Decomposition (DMD).  DMD is a spatiotemporal modal decomposition technique that can be used to identify spatial patterns in a signal (modes), along with the time course of these spatial patterns (dynamics).  As such, the algorithm assumes that the input data has a both a spatial and a temporal component.  We are interested in modeling how the system evolves over time."/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+
+   
+
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="https://kristianeschenburg.github.io" class="f3 fw2 hover-white no-underline white-90 dib">
+      A Rambling On
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/about/" title="About page">
+              About
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/code/" title="Code page">
+              Code
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/posts/" title="Posts page">
+              Posts
+            </a>
+          </li>
+          
+        </ul>
+      
+      
+
+
+
+<a href="https://twitter.com/keschh" target="_blank" class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel="noopener" aria-label="follow on Twitter——Opens in a new window">
+  <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/></svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+<a href="https://www.linkedin.com/in/kristianeschenburg/" target="_blank" class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel="noopener" aria-label="follow on LinkedIn——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 65 65;" version="1.1" viewBox="0 0 65 65" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M50.837,48.137V36.425c0-6.275-3.35-9.195-7.816-9.195  c-3.604,0-5.219,1.983-6.119,3.374V27.71h-6.79c0.09,1.917,0,20.427,0,20.427h6.79V36.729c0-0.609,0.044-1.219,0.224-1.655  c0.49-1.22,1.607-2.483,3.482-2.483c2.458,0,3.44,1.873,3.44,4.618v10.929H50.837z M22.959,24.922c2.367,0,3.842-1.57,3.842-3.531  c-0.044-2.003-1.475-3.528-3.797-3.528s-3.841,1.524-3.841,3.528c0,1.961,1.474,3.531,3.753,3.531H22.959z M34,64  C17.432,64,4,50.568,4,34C4,17.431,17.432,4,34,4s30,13.431,30,30C64,50.568,50.568,64,34,64z M26.354,48.137V27.71h-6.789v20.427  H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+<a href="https://github.com/kristianeschenburg" target="_blank" class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel="noopener" aria-label="follow on Github——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+
+    <header class="mt4 w-100">
+      <p class="f6 b avenir tracked">
+
+          
+
+        POSTS
+      </p>
+      <h1 class="f1 avenir mb1">Exploring Dynamical Systems With DMD: Part 1</h1>
+      
+
+      
+
+      <time class="f6 mv4 dib tracked" datetime="2018-05-22T14:02:52Z">May 22, 2018</time>
+
+      
+
+      
+        <span class="f6 mv4 dib tracked"> - 6 minutes read</span>
+        <span class="f6 mv4 dib tracked"> - 1246 words</span>
+      
+    </header>
+
+    <section class="nested-copy-line-height lh-copy avenir f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p>In the next two posts, I want to talk briefly about an algorithm called Dynamic Mode Decomposition (DMD).  DMD is a spatiotemporal modal decomposition technique that can be used to identify spatial patterns in a signal (modes), along with the time course of these spatial patterns (dynamics).  As such, the algorithm assumes that the input data has a both a spatial and a temporal component.  We are interested in modeling <em>how</em> the system evolves over time.</p>
+
+<p>If you&rsquo;d like to find more information about DMD, <a href="https://hal-polytechnique.archives-ouvertes.fr/hal-01020654/document">Schmid 2010</a> a good reference.  Likewise, if you&rsquo;d like to follow along with the code for the following analysis, see <a href="https://github.com/kristianeschenburg/dmd">my repo</a>.  For a more in-depth analysis that applies DMD to brain activity in the resting brain, see our recently-published <a href="https://www.frontiersin.org/articles/10.3389/fncom.2019.00075/full">paper</a> my colleagues and I wrote, along with the <a href="https://github.com/kunert/DMD_RSN">code</a> used for our analysis.</p>
+
+<h2 id="the-dmd-algorithm">The DMD Algorithm</h2>
+
+<p>Let&rsquo;s assume that you&rsquo;ve taken $n$ measurements from specific points in space for $m$ time points, where for now we assume that $m\lt n$.  For now, we&rsquo;ll assume that the sampling frequency, $\omega$, is stable across the entire experiment.  We define our entire data matrix as</p>
+
+<p>$$
+\begin{align}
+X = \begin{bmatrix}
+x_{n_{1}, m_{1}} &amp; x_{n_{1}, m_{2}} &amp; x_{n_{1}, m_{3}} &amp; &hellip; \\<br />
+x_{n_{2}, m_{1}} &amp; x_{n_{1}, m_{2}} &amp; x_{n_{2}, m_{3}} &amp; &hellip; \\<br />
+x_{n_{3}, m_{1}} &amp; x_{n_{1}, m_{2}} &amp; x_{n_{3}, m_{3}} &amp; &hellip; \\<br />
+&hellip; &amp; &hellip; &amp; &hellip; &amp; &hellip; \\<br />
+\end{bmatrix}
+\in R^{n \times m}
+\end{align}
+$$</p>
+
+<p>We are interested in solving for the matrix, $A \in R^{n \times n}$, such that</p>
+
+<p>$$
+\begin{align}
+x_{t+1} = A x_{t} \; \; \forall \; \; t = 1,2,&hellip;m-1 \\<br />
+\end{align}
+$$</p>
+
+<p>Given our full data matrix $X$, we can define two matrices $X^{\ast}$ and $Y$ such that</p>
+
+<p>$$
+\begin{align}
+X^{\ast} &amp;= \begin{bmatrix}
+\vert &amp; \vert &amp; &amp; \vert \\<br />
+\vec{x}_1 &amp; \vec{x}_2  &amp; \dots &amp; \vec{x}_{m-1}  \\<br />
+\vert &amp; \vert &amp; &amp; \vert \\<br />
+\end{bmatrix} \in R^{n \times (m-1)} \\<br />
+Y &amp;= \begin{bmatrix}
+\vert &amp; \vert &amp; &amp; \vert \\<br />
+\vec{x}_2 &amp; \vec{x}_3  &amp; \dots &amp; \vec{x}_{m}  \\<br />
+\vert &amp; \vert &amp; &amp; \vert \\<br />
+\end{bmatrix} \in R^{n \times (m-1)}
+\end{align}
+$$</p>
+
+<p>so that we can write</p>
+
+<p>$$
+\begin{align}
+Y = AX^{\ast}
+\end{align}
+$$</p>
+
+<p>If $n$ is small, this is relatively easy to compute &ndash; however, if $n$ is large, as is the case when modeling temporal dynamics in resting-state MRI, it would be computationally inefficient to compute A directly.  To alleviate this, we can make use of the Singular Value Decomposition (SVD) of our predictor matrix $X^{\ast}$.  We define the SVD of $X^{\ast}$ as $X^{\ast} = U \Sigma V^{T}$ as well as the Moore-Penrose psuedo-inverse of $X^{\ast} = X^{\dagger}$ as $
+X^{\dagger} = V \Sigma^{-1} U^{T}$</p>
+
+<p>We can then write</p>
+
+<p>$$
+\begin{align}
+YX^{\dagger}  = YV \Sigma^{-1} U^{T} = A X^{\ast}X^{\dagger} = A \\<br />
+\end{align}
+$$</p>
+
+<p>Additionally, if we assume that rank$(X^{\ast}) = r \leq m$, then we can use the truncated SVD such that $U \in R^{n \times r}$ and $V^{T} \in R^{r \times m}$</p>
+
+<p>and</p>
+
+<p>$$
+\begin{align}
+\Sigma = \begin{bmatrix}
+\sigma_{1} &amp; 0 &amp; 0 &amp; &hellip; \\<br />
+0 &amp; \sigma_{2} &amp; 0 &amp; &hellip; \\<br />
+0 &amp; 0 &amp; \ddots &amp; &hellip; \\<br />
+\vdots &amp; \vdots &amp; \vdots &amp; \sigma_{r} \\<br />
+\end{bmatrix} \in R^{r \times r} \\<br />
+\end{align}
+$$</p>
+
+<p>As it stands now, we still compute an $A \in R^{n \times n}$ matrix.  However, because we have a potentially low-rank system, we can apply a Similarity Transformation to $A$ in order to reduce its dimensionality, without changing its spectrum.  Using our spatial singular vectors $U$, we define</p>
+
+<p>$$\begin{align}
+\tilde{A} &amp;= U^{T} A U \\<br />
+&amp;= U^{T} (YV \Sigma^{-1} U^{T}) U \\<br />
+&amp;= U^{T} Y V \Sigma^{-1} \\<br />
+\end{align}$$</p>
+
+<p>where $\tilde{A} \in R^{r \times r}$.  If we consider the above SVD, we see that $U$ is the matrix of left singular vectors, an orthogonal basis that spans $C(X^{\ast})$, which is an r-dimensional subspace of $R^{n}$.  Thus, the similarity transform represents a mapping $f(A) = U^{T} A U : R^{n} \rightarrow R^{r}$.  We now have a reduced-dimensional representation of our linear operator, from which we can compute the spatial modes and dynamic behavior of each mode.  First, however, because of the notion of variance captured by the singular values of our original predictor matrix, we weight $\tilde{A}$ by the singular values as</p>
+
+<p>$$
+\begin{align}
+\hat{A} = \Sigma^{\frac{1}{2}} \tilde{A} \Sigma^{\frac{1}{2}} \\<br />
+\end{align}
+$$</p>
+
+<p>such that our computed spatial modes have been weighted by the amount they contribute to our measured signal.  We can now compute the eigendecomposition of $\hat{A}$ as</p>
+
+<p>$$
+\begin{align}
+\hat{A} W = W \Lambda \\<br />
+\end{align}
+$$</p>
+
+<p>where the eigenvectors $W$ are the reduced-dimension representations of our spatial modes, and the eigenvalues $\Lambda$ capture the dynamic behavior of our spatial modes.  Because our original data matrix $X^{\ast}$ had spatial dimension $n$ and our eigenvectors have dimension $r$, we need to up-project our eigenvectors $W$ to compute the final spatial modes, via</p>
+
+<p>$$
+\begin{align}
+\Phi = Y V \Sigma^{\frac{-1}{2}}W \\<br />
+\end{align}
+$$</p>
+
+<p>From the SVD of our prediction matrix $X^\ast=U \Sigma V^{T}$, the matrix $V \in R^{m \times r}$ is the matrix of right singular vectors, an orthogonal basis spanning the space of $X^{\ast T}$ (i.e. $r$ basis vectors spanning the space of the measured time courses).  Thus, we see that $H = (V \Sigma^{\frac{-1}{2}})W$ represents a linear combination of the temporal basis vectors (a mapping from $R^{r} \rightarrow R^{m}$) for each eigenvector $w_{i}$ of $W$, weighted by the corresponding singular value $\sigma_{i}^{\frac{-1}{2}}$ (that acts to normalize the spatial mode amplitudes).  Finally, we see that $\Phi = X^{\ast}H$ computes how much of each temporal basis vector is present in the measured time course at each point in space.</p>
+
+<p>Because we are modeling a dynamical system, we can compute the continuous time dynamics of our system using our spatial modes and eigenvalues as</p>
+
+<p>$$
+\begin{align}
+\vec{x}(t) \approx \sum_{i=1}^{r} b_{i}\exp^{((\gamma_{i} + 2i\pi f_{i})\cdot t)} \vec{\phi}_{i} \\<br />
+\end{align}
+$$</p>
+
+<p>where $\gamma_{i}$ is a growth-decay constant and $f_{i}$ is the frequency of oscillation of the spatial mode $\phi_{i}$.  We can compute these two constants as</p>
+
+<p>$$
+\begin{align}
+\gamma_{i} &amp;= \frac{\text{real}(\text{ln}(\lambda_{i}))}{\Delta t} \\<br />
+f_{i} &amp;= \frac{\text{imag}(\text{ln}(\lambda_{i}))}{2\pi \Delta t} \\<br />
+\end{align}
+$$</p>
+
+<p>So, we can see that DMD linearizes our measured time series, by fitting what can be analogized to a &ldquo;global&rdquo; regression.  That is, instead of computing how a single time point predicts the next time point, which could readily be solved using the simple <a href="https://en.wikipedia.org/wiki/Linear_least_squares#Derivation_of_the_normal_equations">Normal equations</a>, DMD computes how a matrix of time points predicts another matrix of time points that is shifted one unit of time into the future.  To this extent, DMD minimizes the Frobenius norm of</p>
+
+<p>$$
+\begin{align}
+\min \limits_{A} \lVert Y - AX^{\ast} \rVert^{2}_{F} <br />
+\end{align}
+$$</p>
+
+<p>However, rather than explicitly computing the matrix $A$, DMD computes the eigenvectors and eigenvalues of $A$, by utilizing the <a href="https://en.wikipedia.org/wiki/Singular_value_decomposition">Singular Value Decomposition</a>, along with a <a href="https://en.wikipedia.org/wiki/Matrix_similarity">Similarity Transformation</a>, in order to generate a reduced-dimensional representation of $$A$$.</p>
+
+<p>This spectral decomposition of our linear operator is of particular importance, because it sheds light on the fact the DMD models the temporal dynamics of our system using a <a href="https://en.wikipedia.org/wiki/Fourier_series">Fourier basis</a>.  Each spatial mode is represented by a particular Fourier frequency along and growth-decay constant that determines the future behavior of our spatial mode.  Additionally, the Fourier basis also determines what sorts of time series can be modeled using DMD &ndash; time series that are expected to have sinusoidal behavior will be more reliably modeled using DMD, whereas signals that show abrupt spike patterns might be more difficult to model.</p><ul class="pa0">
+  
+</ul>
+<div class="mt6">
+      
+      
+      </div>
+    </section>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+    <script type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+     inlineMath: [['$','$'], ['\\(','\\)']],
+     displayMath: [['$$','$$']],
+     processEscapes: true,
+     processEnvironments: true,
+     skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+     TeX: { equationNumbers: { autoNumber: "AMS" },
+            extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+</script>
+    
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://kristianeschenburg.github.io" >
+    &copy; 2019 A Rambling On
+  </a>
+    <div>
+
+
+
+<a href="https://twitter.com/keschh" target="_blank" class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel="noopener" aria-label="follow on Twitter——Opens in a new window">
+  <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/></svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+<a href="https://www.linkedin.com/in/kristianeschenburg/" target="_blank" class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel="noopener" aria-label="follow on LinkedIn——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 65 65;" version="1.1" viewBox="0 0 65 65" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M50.837,48.137V36.425c0-6.275-3.35-9.195-7.816-9.195  c-3.604,0-5.219,1.983-6.119,3.374V27.71h-6.79c0.09,1.917,0,20.427,0,20.427h6.79V36.729c0-0.609,0.044-1.219,0.224-1.655  c0.49-1.22,1.607-2.483,3.482-2.483c2.458,0,3.44,1.873,3.44,4.618v10.929H50.837z M22.959,24.922c2.367,0,3.842-1.57,3.842-3.531  c-0.044-2.003-1.475-3.528-3.797-3.528s-3.841,1.524-3.841,3.528c0,1.961,1.474,3.531,3.753,3.531H22.959z M34,64  C17.432,64,4,50.568,4,34C4,17.431,17.432,4,34,4s30,13.431,30,30C64,50.568,50.568,64,34,64z M26.354,48.137V27.71h-6.789v20.427  H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+<a href="https://github.com/kristianeschenburg" target="_blank" class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel="noopener" aria-label="follow on Github——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+</div>
+  </div>
+</footer>
+
+    
+
+  <script src="/dist/js/app.3fc0f988d21662902933.js"></script>
+
+
+  </body>
+
+</html>

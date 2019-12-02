@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>A Rambling On  | The Delta Method</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.59.0" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    
+    
+      <link href="/dist/css/app.d98f2eb6bcd1eaedb7edf166bd16af26.css" rel="stylesheet">
+    
+
+    
+
+    
+      
+    
+
+    
+    
+    <meta property="og:title" content="The Delta Method" />
+<meta property="og:description" content="Here, we&rsquo;ll look at various applications of the Delta Method, especially in the context of variance stabilizing transformations, along with looking at the confidence intervals of estimates.
+
+The Delta Method is used as a way to approximate the Standard Error of transformations of random variables, and is based on a Taylor Series approximation." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kristianeschenburg.github.io/posts/delta-method/" />
+<meta property="article:published_time" content="2019-03-19T12:43:32+00:00" />
+<meta property="article:modified_time" content="2019-03-19T12:43:32+00:00" />
+<meta itemprop="name" content="The Delta Method">
+<meta itemprop="description" content="Here, we&rsquo;ll look at various applications of the Delta Method, especially in the context of variance stabilizing transformations, along with looking at the confidence intervals of estimates.
+
+The Delta Method is used as a way to approximate the Standard Error of transformations of random variables, and is based on a Taylor Series approximation.">
+
+
+<meta itemprop="datePublished" content="2019-03-19T12:43:32&#43;00:00" />
+<meta itemprop="dateModified" content="2019-03-19T12:43:32&#43;00:00" />
+<meta itemprop="wordCount" content="1708">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="The Delta Method"/>
+<meta name="twitter:description" content="Here, we&rsquo;ll look at various applications of the Delta Method, especially in the context of variance stabilizing transformations, along with looking at the confidence intervals of estimates.
+
+The Delta Method is used as a way to approximate the Standard Error of transformations of random variables, and is based on a Taylor Series approximation."/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+
+   
+
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="https://kristianeschenburg.github.io" class="f3 fw2 hover-white no-underline white-90 dib">
+      A Rambling On
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/about/" title="About page">
+              About
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/code/" title="Code page">
+              Code
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/posts/" title="Posts page">
+              Posts
+            </a>
+          </li>
+          
+        </ul>
+      
+      
+
+
+
+<a href="https://twitter.com/keschh" target="_blank" class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel="noopener" aria-label="follow on Twitter——Opens in a new window">
+  <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/></svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+<a href="https://www.linkedin.com/in/kristianeschenburg/" target="_blank" class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel="noopener" aria-label="follow on LinkedIn——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 65 65;" version="1.1" viewBox="0 0 65 65" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M50.837,48.137V36.425c0-6.275-3.35-9.195-7.816-9.195  c-3.604,0-5.219,1.983-6.119,3.374V27.71h-6.79c0.09,1.917,0,20.427,0,20.427h6.79V36.729c0-0.609,0.044-1.219,0.224-1.655  c0.49-1.22,1.607-2.483,3.482-2.483c2.458,0,3.44,1.873,3.44,4.618v10.929H50.837z M22.959,24.922c2.367,0,3.842-1.57,3.842-3.531  c-0.044-2.003-1.475-3.528-3.797-3.528s-3.841,1.524-3.841,3.528c0,1.961,1.474,3.531,3.753,3.531H22.959z M34,64  C17.432,64,4,50.568,4,34C4,17.431,17.432,4,34,4s30,13.431,30,30C64,50.568,50.568,64,34,64z M26.354,48.137V27.71h-6.789v20.427  H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+<a href="https://github.com/kristianeschenburg" target="_blank" class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel="noopener" aria-label="follow on Github——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+
+    <header class="mt4 w-100">
+      <p class="f6 b avenir tracked">
+
+          
+
+        POSTS
+      </p>
+      <h1 class="f1 avenir mb1">The Delta Method</h1>
+      
+
+      
+
+      <time class="f6 mv4 dib tracked" datetime="2019-03-19T12:43:32Z">March 19, 2019</time>
+
+      
+
+      
+        <span class="f6 mv4 dib tracked"> - 9 minutes read</span>
+        <span class="f6 mv4 dib tracked"> - 1708 words</span>
+      
+    </header>
+
+    <section class="nested-copy-line-height lh-copy avenir f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p>Here, we&rsquo;ll look at various applications of the <a href="https://en.wikipedia.org/wiki/Delta_method">Delta Method</a>, especially in the context of variance stabilizing transformations, along with looking at the confidence intervals of estimates.</p>
+
+<p>The Delta Method is used as a way to approximate the <a href="https://en.wikipedia.org/wiki/Standard_error">Standard Error</a> of transformations of random variables, and is based on a <a href="https://en.wikipedia.org/wiki/Taylor_series">Taylor Series</a> approximation.</p>
+
+<p>In the univariate case, if we have a random variable, $X_{n}$, that converges in distribution to a $N(0, \sigma^{2})$ distribution, we can apply a function to this random variable as:</p>
+
+<p>$$
+\begin{align}
+\sqrt{n}(X_{n} - \theta) \xrightarrow{d} N(0,\sigma^{2}) \\<br />
+\sqrt{n}(g(X_{n}) - g(\theta)) \xrightarrow{d} \; ? \\<br />
+\end{align}
+$$</p>
+
+<p>However, we don&rsquo;t know the asymptotic variance of this transformed variable just yet.  In this case, we can approximate our function $g(x)$ using a Taylor Series approximation, evaluated at $\theta$:</p>
+
+<p>$$
+\begin{align}
+g(x) = g(\theta) + g\prime(\theta)(x-\theta) + O()
+\end{align}
+$$</p>
+
+<p>where $O()$ is the remainder of higher-order Taylor Series terms that converges to 0.</p>
+
+<p>By <a href="https://en.wikipedia.org/wiki/Slutsky%27s_theorem">Slutsky&rsquo;s Theorem</a> and the <a href="https://en.wikipedia.org/wiki/Continuous_mapping_theorem">Continious Mapping Theorem</a>, we know that since $\bar{\theta} \xrightarrow{p} \theta$, we know that $g\prime(\bar{\theta}) \xrightarrow{p} g\prime(\theta)$</p>
+
+<p>Plugging this back in to our original equation and applying Slutsky&rsquo;s Perturbation Theorem, we have:</p>
+
+<p>$$
+\begin{align}
+&amp;= \sqrt{n}(\Big[g(\theta) + g\prime(\theta)(x-\theta)\Big] - g(\theta)) \\<br />
+&amp;= \sqrt{n}(g\prime(\theta)(x-\theta)) \\<br />
+&amp;= g\prime(\theta)\sqrt{n}(X_{n} - \theta) \<br />
+\end{align}
+$$</p>
+
+<p>and since we know that $\sqrt{n}(\bar{X_{n}} - \theta)  \xrightarrow{d} N(0,\sigma^{2})$, we now know that $g\prime(\theta) \sqrt{n}(\bar{X_{n}} - \theta) \xrightarrow{d} N(0,g\prime(\theta)^{2} \sigma^{2})$.  As such, we have that:</p>
+
+<p>$$
+\begin{align}
+\sqrt{n}(g(X_{n}) - g(\theta)) \xrightarrow{d} N(0, g\prime(\theta)^{2}\sigma^{2})
+\end{align}
+$$</p>
+
+<p>The Delta Method can be generalized to the multivariate case, where, instead of the derivative, we use the gradient vector of our function:</p>
+
+<p>$$
+\begin{align}
+\sqrt{n}(g(\bar{X_{n}} - g(\theta)) \xrightarrow{d} N(0, \nabla(g)^{T} \Sigma \nabla(g))
+\end{align}
+$$</p>
+
+<p>Below, I&rsquo;m going to look at a few examples applying the Delta Method to simple functions of random variables.  Then I&rsquo;ll go into more involved examples applying the Delta Method via <a href="https://en.wikipedia.org/wiki/Variance-stabilizing_transformation">Variance Stabilizing Transformations</a>.  Oftentimes, the variance of an estimate depends on its mean, which can vary with the sample size.  In this case, we&rsquo;d like to find a function $g(\theta)$, such that, when applied via the Delta Method, the variance is constant as a function of the sample size.</p>
+
+<p>We&rsquo;ll start by importing the necessary libraries and defining two functions:</p>
+
+<pre><code class="language-python">%matplotlib inline
+import matplotlib.pyplot as plt
+
+from matplotlib import rc
+rc('text', usetex=True)
+
+from scipy.stats import norm, poisson, expon
+import numpy as np
+</code></pre>
+
+<p>Here, we define two simple functions &ndash; one to compute the difference between our estimate and its population paramter, and the other to compute the function of our random variable as described by the Central Limit Theorem.</p>
+
+<pre><code class="language-python">def conv_prob(n, est, pop):
+    
+    &quot;&quot;&quot;
+    Method to compute the estimate for convergence in probability.
+    &quot;&quot;&quot;
+    
+    return (est-pop)
+
+def clt(n, est, pop):
+    
+    &quot;&quot;&quot;
+    Method to examine the Central Limit Theorem.
+    &quot;&quot;&quot;
+    
+    return np.sqrt(n)*(est-pop)
+</code></pre>
+
+<p>Let&rsquo;s have a look at an easy example with the Normal Distribution.  We&rsquo;ll set $\mu = 0$ and $\sigma^{2} = 5$.  Remember that when using the <code>Scipy</code> Normal distribution, the <code>norm</code> class accepts the <strong>standard deviation</strong>, not the variance.  We&rsquo;ll show via the Central Limit Theorem that the function $\sqrt{n}(\bar{X_{n}} - \mu) \xrightarrow{d} N(0,\sigma^{2})$.</p>
+
+<pre><code class="language-python"># set sample sample sizes, and number of sampling iterations
+N = [5,10,50,100,500,1000]
+iters = 500
+
+mu = 0; sigma = np.sqrt(5)
+
+# store estimates
+norm_clt = {n: [] for n in N}
+
+samples = norm(mu,sigma).rvs(size=(iters,1000))
+
+for n in N:
+    for i in np.arange(iters):
+        
+        est_norm = np.mean(samples[i,0:n])
+        norm_clt[n].append(clt(n, est_norm, mu))
+</code></pre>
+
+<p>Now let&rsquo;s plot the results.</p>
+
+<pre><code class="language-python"># Plot results using violin plots
+fig = plt.subplots(figsize=(8,5))
+
+for i,n in enumerate(N):
+    temp = norm_clt[n]
+    m = np.mean(temp)
+    v = np.var(temp)
+    print('Sample Size: %i has empirical variance: %.2f' % (n, v.mean()))
+        
+    plt.violinplot(norm_clt[n], positions=[i],)
+</code></pre>
+
+<figure>
+    <img src='/images/posts/Normal_CLT.jpg' class="center-image" width="100%"/>
+    <figcaption>Central Limit Theorem applied to Normal Distribution.</figcaption>
+</figure>
+
+<p>As expected, we see that the Normal distribution mean and variance estimates are independent of the sample size.  In this case, we don&rsquo;t need to apply a variance stabiliing transformation.  We also see that the variance fluctuates around $5$.  Now, let&rsquo;s apply a simple function $g(\theta) = \theta^{2}$ to our data.  So $g\prime(\theta) = 2\theta$, and the variance of our function becomes $g\prime(\mu)^{2}\sigma^{2} = (2\mu)^{2} \sigma^{2} = 4\mu^{2}\sigma^{2}$.  Let&rsquo;s look at a few plots, as a function of changing $\mu$.</p>
+
+<pre><code class="language-python"># set sample sample sizes, and number of sampling iterations
+mus = [1,2,3,4]
+
+N = [5,10,50,100,500,1000]
+iters = 2000
+sigma = np.sqrt(5)
+
+
+fig, ([ax1,ax2], [ax3,ax4]) = plt.subplots(2,2, figsize=(14,9))
+for j ,m in enumerate(mus):
+    
+    # store estimates
+    norm_clt = {n: [] for n in N}
+    samples = norm(m, sigma).rvs(size=(iters, 1000))
+    
+    
+    plt.subplot(2,2,j+1)
+    for k, n in enumerate(N):
+        np.random.shuffle(samples)
+        for i in np.arange(iters):
+
+            est_norm = np.mean(samples[i, 0:n])
+            norm_clt[n].append(clt(n, est_norm**2, m**2))
+
+        plt.violinplot(norm_clt[n], positions=[k],)
+</code></pre>
+
+<figure>
+    <img src='/images/posts/Normal_Squared.jpg' class="center-image" width="100%"/>
+    <figcaption>Central Limit Theorem applied to function of Normal Distribution.</figcaption>
+</figure>
+
+<p>We see that the variance increases as the mean increases, and that, as the sample sizes increase, the distributions converge to the $N(0, 4\mu^{2}\sigma^{2})$ asymptotic distribution.</p>
+
+<h4 id="variance-stabilization-for-the-poisson-distribution">Variance Stabilization for the Poisson Distribution</h4>
+
+<p>Now let&rsquo;s look at an example where the variance depends on the sample size.  We&rsquo;ll use the Poisson distribution in this case.  We know that for the Poisson distribution, the variance is dependent on the mean, so let&rsquo;s define a random variable, $X_{\lambda}$, where $\lambda = n*\theta$.  $n$ is the sample size, and $\theta$ is a fixed constant.</p>
+
+<p>We&rsquo;ll define $X_{\lambda } = \sum_{i=1}^{n} X_{\theta}$, the sum of $n$ independent Poisson random variables, so that the expected value and variance of $X_{\lambda } = n\theta$</p>
+
+<p>If we wanted to apply the Central Limit Theorem to $X_{\lambda }$, our convergence would be as follows:</p>
+
+<p>$$
+\begin{align}
+\sqrt{n}(X_{\lambda} - \lambda) \xrightarrow{d} N(0,\sigma^{2}(\lambda)) \\<br />
+\end{align}
+$$</p>
+
+<p>where the variance $\sigma^{2}(\lambda)$ depends on the mean, $\lambda$.  In order to stabilize the variance of this variable, we can apply the <a href="https://en.wikipedia.org/wiki/Delta_method">Delta Method</a>, in order to generate a variable that converges to a standard Normal distribution asymptotically.</p>
+
+<p>$$
+\begin{align}
+\sqrt{n}(g(X_{\lambda}) - g(\lambda)) \xrightarrow{d} N(0,g\prime(\theta)^{2}\sigma^{2}) \\<br />
+\end{align}
+$$</p>
+
+<p>where</p>
+
+<p>$$
+\begin{align}
+&amp;g\prime(\theta)^{2} \theta = 1 \\<br />
+&amp;g\prime(\theta)^{2} = \frac{1}{\theta} \\<br />
+&amp;g\prime(\theta) = \frac{1}{\sqrt{\theta}} \\<br />
+&amp;g(\theta) = \int \frac{\partial{\theta}}{\sqrt{\theta}} \\<br />
+&amp;g(\theta) = 2\sqrt{\theta} \\<br />
+\end{align}
+$$</p>
+
+<p>is our variance stabilizing function.</p>
+
+<pre><code class="language-python">def p_lambda(n, theta=0.5):
+    
+    &quot;&quot;&quot;
+    Function to compute lambda parameter for Poisson distribution.
+    Theta is constant.
+    &quot;&quot;&quot;
+    return n*theta
+</code></pre>
+
+<pre><code class="language-python">theta = 0.5
+
+N = [5,10,50,100,250,500,750,1000]
+iters = 500
+
+clt_pois = {n: [] for n in N}
+pois_novar= {n: [] for n in N}
+pois_var = {n: [] for n in N}
+
+for n in N:
+    for i in np.arange(iters):
+        est_mu = np.mean(poisson(mu=(n*theta)).rvs(n))
+
+        pois_novar[n].append(clt(n, est_mu, p_lambda(n)))
+        pois_var[n].append(clt(n, 2*np.sqrt(est_mu), 2*np.sqrt(p_lambda(n))))
+        
+        clt_pois[n].append(conv_prob(n, est_mu, n*theta))
+</code></pre>
+
+<pre><code class="language-python">fig,([ax1, ax2]) = plt.subplots(2,1, figsize=(15,6))
+
+plt.subplot(1,2,1)
+for i,n in enumerate(N):
+    plt.violinplot(pois_novar[n], positions=[i])
+
+plt.subplot(1,2,2)
+for i,n in enumerate(N):
+    plt.violinplot(pois_var[n], positions=[i])
+</code></pre>
+
+<figure>
+    <img src='/images/posts/Poisson.jpg' class="center-image" width="100%"/>
+    <figcaption>Variance stabilization of Poisson distribution.</figcaption>
+</figure>
+
+<h4 id="variance-stabilization-for-the-exponential-distribution">Variance Stabilization for the Exponential Distribution</h4>
+
+<p>Applying the same method to the Exponential distribtuion, we&rsquo;ll find that the variance stabilizing transformation is $g(\theta) = log(\theta)$.  We&rsquo;ll apply that here:</p>
+
+<pre><code class="language-python">theta = 0.5
+
+N = [5,10,50,100,250,500,750,1000]
+iters = 500
+
+clt_exp = {n: [] for n in N}
+exp_novar= {n: [] for n in N}
+exp_var = {n: [] for n in N}
+
+for n in N:
+    for i in np.arange(iters):
+        samps = expon(scale=n*theta).rvs(n)
+        
+        est_mu = np.mean(samps)
+        est_var = np.var(samps)
+
+        exp_novar[n].append(clt(n, est_mu, (n*theta)))
+        exp_var[n].append(clt(n, np.log(est_mu), np.log(n*theta)))
+        
+        clt_exp[n].append(conv_prob(n, est_mu, n*theta))
+</code></pre>
+
+<pre><code class="language-python">fig,([ax1, ax2]) = plt.subplots(2,1, figsize=(15,6))
+
+plt.subplot(1,2,1)
+for i,n in enumerate(N):
+    plt.violinplot(exp_novar[n], positions=[i])
+
+plt.subplot(1,2,2)
+for i,n in enumerate(N):
+    plt.violinplot(exp_var[n], positions=[i])
+</code></pre>
+
+<figure>
+    <img src='/images/posts/Exponential.jpg' class="center-image" width="100%"/>
+    <figcaption>Variance stabilization of Exponential distribution.</figcaption>
+</figure>
+
+<h4 id="example-of-standard-error-computation-using-delta-method-for-polynomial-regression">Example of Standard Error Computation Using Delta Method for Polynomial Regression</h4>
+
+<p>As an example of applying the Delta Method to a real-world dataset,  I&rsquo;ve downloaded the <a href="https://archive.ics.uci.edu/ml/datasets/banknote+authentication"><strong>banknote</strong></a> dataset from the <a href="https://archive.ics.uci.edu/ml/index.php">UCI Machine Learning Repository</a>.  In this exercise, I&rsquo;ll apply the <a href="https://en.wikipedia.org/wiki/Logistic_function">logistic function</a> via logistic regression to assess whether or not a banknote is real or fake, using a set of features.   I&rsquo;ll compute confidence intervals of our prediction probabilities using the Delta Method.  There are four unique predictors in this case: the <strong>variance</strong>, <strong>skew</strong>, <strong>kurtosis</strong>, and <strong>entropy</strong> of the Wavelet-transformed banknote image.  I&rsquo;ll treat each of these predictors independently, using polynomial basis function of degree $3$.</p>
+
+<p>In this example, we&rsquo;re interested in the standard error of our probability estimate.  Our function is the Logistic Function, as follows:</p>
+
+<p>$$
+\begin{align}
+g(\beta) &amp;= \frac{1}{1+e^{-x^{T}\beta}} \\<br />
+&amp;= \frac{e^{x^{T}\beta}}{1+e^{x^{T}\beta}} \<br />
+\end{align}
+$$</p>
+
+<p>where the gradient of this multivariate function is:</p>
+
+<p>$$
+\begin{align}
+\nabla g(\beta) &amp;= \frac{\partial g}{\partial \beta} e^{x^{T}\beta}(1+e^{x^{T}\beta})^{-1} \\<br />
+&amp;= x^{T}e^{x^{T}\beta}(1+e^{x^{T}\beta})^{-1} - x^{T}e^{x^{T}\beta}e^{x^{T}\beta} \\<br />
+&amp;= x^{T}\Big(e^{x^{T}\beta}(1+e^{x^{T}\beta})^{-1} - e^{x^{T}\beta}e^{x^{T}\beta}\Big)(1+e^{x^{T}\beta})^{-2} \\<br />
+&amp;= x^{T} \frac{e^{x^{T}\beta}}{(1+e^{x^{T}\beta})^{2}} \\<br />
+\nabla g(\beta) &amp;= x^{T} g(\beta)(1-g(\beta)) \<br />
+\end{align}
+$$</p>
+
+<p>so that the final estimate of our confidence interval becomes</p>
+
+<p>$$
+\begin{align}
+&amp; \sim N(0,x^{T} g(\beta)(1-g(\beta)) \Sigma g(\beta)(1-g(\beta))x) \\<br />
+&amp; \sim N(0, \nabla g(\beta)^{T} \Sigma \nabla g(\beta))
+\end{align}
+$$</p>
+
+<pre><code class="language-python">import pandas as pd
+import statsmodels.api as sm
+from sklearn.preprocessing import PolynomialFeatures
+</code></pre>
+
+<pre><code class="language-python">import pandas as pd
+import statsmodels.api as sm
+from sklearn.preprocessing import PolynomialFeatures
+
+bank = pd.read_csv('/Users/kristianeschenburg/Documents/Statistics/BankNote.txt',
+                   sep=',',header=None, names=['variance', 'skew', 'kurtosis', 'entropy','class'])
+bank.head()
+
+fig = plt.subplots(2,2, figsize=(12,8))
+for j, measure in enumerate(['variance', 'kurtosis', 'skew', 'entropy']):
+
+    predictor = np.asarray(bank[measure])
+    response = np.asarray(bank['class'])
+    
+    idx = (response == 1)
+
+    # plot test set
+    plt.subplot(2,2,j+1)
+    plt.violinplot(predictor[idx], positions=[1]);
+    plt.violinplot(predictor[~idx], positions=[0])
+    plt.title('{:} By Classification'.format(measure), fontsize=18)
+    plt.ylabel('Measure: {:}'.format(measure),fontsize=15)
+    plt.yticks(fontsize=13)
+    plt.xticks([0,1],['Fake','Real'], fontsize=15)
+
+plt.tight_layout()
+</code></pre>
+
+<figure>
+    <img src='/images/posts/bank_notes.jpg' class="center-image" width="100%"/>
+    <figcaption>Bank note feature distributions, based on note class.</figcaption>
+</figure>
+
+<p>Based on the above plot, we can see that <strong>variance</strong>, <strong>skew</strong>, and <strong>kurtosis</strong> seem to be the most informative, while the <strong>entropy</strong> distributions do not seem to be that different based on bank note class.</p>
+
+<p>Next, we fit a logistic regression model of note classification on note feature, with polynomial order of degree 3.  We then compute the standard errors of the transformed variance.  It was transformed using the <strong>logistic function</strong>, so we&rsquo;ll need to compute the gradient of this function.</p>
+
+<pre><code class="language-python">fig = plt.subplots(2,2, figsize=(12,8))
+for j, measure in enumerate(['variance', 'kurtosis', 'skew', 'entropy']):
+
+    # Generate polynomial object to degree 
+    # transform age to 4-degree basis function
+    poly = PolynomialFeatures(degree=2)
+    idx_order = np.argsort(bank[measure])
+
+    predictor = bank[measure][idx_order]
+    response = bank['class'][idx_order]
+
+    features = poly.fit_transform(predictor.values.reshape(-1,1));
+
+    # fit logit curve to curve
+    logit = sm.Logit(response, features).fit();
+    
+    test_features = np.linspace(np.min(predictor), np.max(predictor), 100)
+    test_features = poly.fit_transform(test_features.reshape(-1,1))
+    # predict on test set
+    class_prob = logit.predict(test_features)
+
+    cov = logit.cov_params()
+    yx = (class_prob*(1-class_prob))[:,None] * test_features
+    se = np.sqrt(np.diag(np.dot(np.dot(yx, cov), yx.T)))
+
+    # probability can't exceed 1, or be less than 0
+    upper = np.maximum(0, np.minimum(1, class_prob+1.96*se))
+    lower = np.maximum(0, np.minimum(1, class_prob-1.96*se))
+
+    # plot test set
+    plt.subplot(2,2,j+1)
+    plt.plot(test_features[:, 1], class_prob);
+    plt.plot(test_features[:, 1], upper, color='red', linestyle='--', alpha=0.5);
+    plt.plot(test_features[:, 1], lower, color='red', linestyle='--', alpha=0.5);
+    plt.title(r'P(isReal \Big| X)', fontsize=18)
+    plt.xlabel('{:}'.format(measure),fontsize=15)
+    plt.ylabel('Probability',fontsize=15)
+    plt.grid(True)
+
+plt.tight_layout()
+</code></pre>
+
+<figure>
+    <img src='/images/posts/bank_notes_CI.jpg' class="center-image" width="100%"/>
+    <figcaption>Confidence intervals for each feature, computed using Delta Method.</figcaption>
+</figure><ul class="pa0">
+  
+</ul>
+<div class="mt6">
+      
+      
+      </div>
+    </section>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+    <script type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+     inlineMath: [['$','$'], ['\\(','\\)']],
+     displayMath: [['$$','$$']],
+     processEscapes: true,
+     processEnvironments: true,
+     skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+     TeX: { equationNumbers: { autoNumber: "AMS" },
+            extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+</script>
+    
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://kristianeschenburg.github.io" >
+    &copy; 2019 A Rambling On
+  </a>
+    <div>
+
+
+
+<a href="https://twitter.com/keschh" target="_blank" class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel="noopener" aria-label="follow on Twitter——Opens in a new window">
+  <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/></svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+<a href="https://www.linkedin.com/in/kristianeschenburg/" target="_blank" class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel="noopener" aria-label="follow on LinkedIn——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 65 65;" version="1.1" viewBox="0 0 65 65" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M50.837,48.137V36.425c0-6.275-3.35-9.195-7.816-9.195  c-3.604,0-5.219,1.983-6.119,3.374V27.71h-6.79c0.09,1.917,0,20.427,0,20.427h6.79V36.729c0-0.609,0.044-1.219,0.224-1.655  c0.49-1.22,1.607-2.483,3.482-2.483c2.458,0,3.44,1.873,3.44,4.618v10.929H50.837z M22.959,24.922c2.367,0,3.842-1.57,3.842-3.531  c-0.044-2.003-1.475-3.528-3.797-3.528s-3.841,1.524-3.841,3.528c0,1.961,1.474,3.531,3.753,3.531H22.959z M34,64  C17.432,64,4,50.568,4,34C4,17.431,17.432,4,34,4s30,13.431,30,30C64,50.568,50.568,64,34,64z M26.354,48.137V27.71h-6.789v20.427  H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+<a href="https://github.com/kristianeschenburg" target="_blank" class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel="noopener" aria-label="follow on Github——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+</div>
+  </div>
+</footer>
+
+    
+
+  <script src="/dist/js/app.3fc0f988d21662902933.js"></script>
+
+
+  </body>
+
+</html>

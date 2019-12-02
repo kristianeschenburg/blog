@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>A Rambling On  | Mahalanobis Distance: A Distributional Exploration of Brain Connectivity</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.59.0" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    
+    
+      <link href="/dist/css/app.d98f2eb6bcd1eaedb7edf166bd16af26.css" rel="stylesheet">
+    
+
+    
+
+    
+      
+    
+
+    
+    
+    <meta property="og:title" content="Mahalanobis Distance: A Distributional Exploration of Brain Connectivity" />
+<meta property="og:description" content="For one of the projects I&rsquo;m working on, I have an array of multivariate data relating to brain connectivity patterns.  Briefly, each brain is represented as a surface mesh, which we represent as a graph $G = (V,E)$, where $V$ is a set of $n$ vertices, and $E$ are the set of edges between vertices." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kristianeschenburg.github.io/posts/mahalanobis/" />
+<meta property="article:published_time" content="2018-12-07T05:12:32+00:00" />
+<meta property="article:modified_time" content="2018-12-07T05:12:32+00:00" />
+<meta itemprop="name" content="Mahalanobis Distance: A Distributional Exploration of Brain Connectivity">
+<meta itemprop="description" content="For one of the projects I&rsquo;m working on, I have an array of multivariate data relating to brain connectivity patterns.  Briefly, each brain is represented as a surface mesh, which we represent as a graph $G = (V,E)$, where $V$ is a set of $n$ vertices, and $E$ are the set of edges between vertices.">
+
+
+<meta itemprop="datePublished" content="2018-12-07T05:12:32&#43;00:00" />
+<meta itemprop="dateModified" content="2018-12-07T05:12:32&#43;00:00" />
+<meta itemprop="wordCount" content="1663">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Mahalanobis Distance: A Distributional Exploration of Brain Connectivity"/>
+<meta name="twitter:description" content="For one of the projects I&rsquo;m working on, I have an array of multivariate data relating to brain connectivity patterns.  Briefly, each brain is represented as a surface mesh, which we represent as a graph $G = (V,E)$, where $V$ is a set of $n$ vertices, and $E$ are the set of edges between vertices."/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+
+   
+
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="https://kristianeschenburg.github.io" class="f3 fw2 hover-white no-underline white-90 dib">
+      A Rambling On
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/about/" title="About page">
+              About
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/code/" title="Code page">
+              Code
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/posts/" title="Posts page">
+              Posts
+            </a>
+          </li>
+          
+        </ul>
+      
+      
+
+
+
+<a href="https://twitter.com/keschh" target="_blank" class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel="noopener" aria-label="follow on Twitter——Opens in a new window">
+  <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/></svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+<a href="https://www.linkedin.com/in/kristianeschenburg/" target="_blank" class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel="noopener" aria-label="follow on LinkedIn——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 65 65;" version="1.1" viewBox="0 0 65 65" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M50.837,48.137V36.425c0-6.275-3.35-9.195-7.816-9.195  c-3.604,0-5.219,1.983-6.119,3.374V27.71h-6.79c0.09,1.917,0,20.427,0,20.427h6.79V36.729c0-0.609,0.044-1.219,0.224-1.655  c0.49-1.22,1.607-2.483,3.482-2.483c2.458,0,3.44,1.873,3.44,4.618v10.929H50.837z M22.959,24.922c2.367,0,3.842-1.57,3.842-3.531  c-0.044-2.003-1.475-3.528-3.797-3.528s-3.841,1.524-3.841,3.528c0,1.961,1.474,3.531,3.753,3.531H22.959z M34,64  C17.432,64,4,50.568,4,34C4,17.431,17.432,4,34,4s30,13.431,30,30C64,50.568,50.568,64,34,64z M26.354,48.137V27.71h-6.789v20.427  H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+<a href="https://github.com/kristianeschenburg" target="_blank" class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel="noopener" aria-label="follow on Github——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+
+    <header class="mt4 w-100">
+      <p class="f6 b avenir tracked">
+
+          
+
+        POSTS
+      </p>
+      <h1 class="f1 avenir mb1">Mahalanobis Distance: A Distributional Exploration of Brain Connectivity</h1>
+      
+
+      
+
+      <time class="f6 mv4 dib tracked" datetime="2018-12-07T05:12:32Z">December 7, 2018</time>
+
+      
+
+      
+        <span class="f6 mv4 dib tracked"> - 8 minutes read</span>
+        <span class="f6 mv4 dib tracked"> - 1663 words</span>
+      
+    </header>
+
+    <section class="nested-copy-line-height lh-copy avenir f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p>For one of the projects I&rsquo;m working on, I have an array of multivariate data relating to brain connectivity patterns.  Briefly, each brain is represented as a surface mesh, which we represent as a graph $G = (V,E)$, where $V$ is a set of $n$ vertices, and $E$ are the set of edges between vertices.</p>
+
+<p>Additionally, for each vertex $v \in V$, we also have an associated scalar <em>label</em>, which we&rsquo;ll denote $l(v)$, that identifies what region of the cortex each vertex belongs to, the set of regions which we define as $L = {1, 2, &hellip; k}$.  And finally, for each vertex $v \in V$, we also have a multivariate feature vector $r(v) \in \mathbb{R}^{1 \times k}$, that describes the strength of connectivity between it, and every region $l \in L$.</p>
+
+<figure>
+    <img src='{{site.baseurl}}/img/mahalanobis/parcellation.png' class="center-image" width="120%"/>
+    <figcaption>Example of cortical map, and array of connectivity features.</figcaption>
+</figure>
+
+<p>I&rsquo;m interested in examining how &ldquo;close&rdquo; the connectivity samples of one region, $l_{j}$, are to another region, $l_{k}$.  In the univariate case, one way to compare a scalar sample to a distribution is to use the $t$-statistic, which measures how many standard deviations away from the mean a given sample is:</p>
+
+<p>$$
+\begin{align}
+t_{s} = \frac{\bar{x} - \mu}{\frac{s}{\sqrt{n}}}
+\end{align}
+$$</p>
+
+<p>where $\mu$ is the population mean, and $s$ is the sample standard deviation.  If we square this, we get:</p>
+
+<p>$$
+\begin{align}
+t^{2} = \frac{(\bar{x} - \mu)^{2}}{\frac{s^{2}}{n}} =  \frac{n (\bar{x} - \mu)^{2}}{S^{2}} \sim F(1,n)
+\end{align}
+$$</p>
+
+<p>We know the last part is true, because the numerator and denominator are independent $\chi^{2}$ distributed random variables.  However, I&rsquo;m not working with univariate data &ndash; I have multivariate data.  The multivariate generalization of the $t$-statistic is the <a href="https://en.wikipedia.org/wiki/Mahalanobis_distance">Mahalanobis Distance</a>:</p>
+
+<p>$$
+\begin{align}
+d &amp;= \sqrt{(\bar{x} - \mu)\Sigma^{-1}(\bar{x}-\mu)^{T}}
+\end{align}
+$$</p>
+
+<p>where the squared Mahalanobis Distance is:</p>
+
+<p>$$
+\begin{align}
+d^{2} &amp;= (\bar{x} - \mu)\Sigma^{-1}(\bar{x}-\mu)^{T}
+\end{align}
+$$</p>
+
+<p>where $\Sigma^{-1}$ is the inverse covariance matrix.  If our $X$&rsquo;s were initially distributed with a multivariate normal distribution, $N_{p}(\mu,\Sigma)$ (assuming $\Sigma$ is non-degenerate i.e. positive definite), the squared Mahalanobis distance, $d^{2}$ has a $\chi^{2}_{p}$ distribution.  We show this below.</p>
+
+<p>We know that $(X-\mu)$ is distributed $N_{p}(0,\Sigma)$.  We also know that, since $\Sigma$ is symmetric and real, that we can compute the eigendecomposition of $\Sigma$ as:</p>
+
+<p>$$
+\begin{align}
+\Sigma = U \Lambda U^{T} <br />
+\end{align}
+$$</p>
+
+<p>and consequentially, because $U$ is an orthogonal matrix, and because $\Lambda$ is diagonal, we know that $\Sigma^{-1}$ is:</p>
+
+<p>$$
+\begin{align}
+\Sigma^{-1} &amp;= (U \Lambda U^{T})^{-1} <br />
+&amp;= U \Lambda^{-1} U^{T} <br />
+&amp;= (U \Lambda^{\frac{-1}{2}}) (U \Lambda^{\frac{-1}{2}})^{T} <br />
+&amp;= R R^{T}
+\end{align}
+$$</p>
+
+<p>Therefore, we know that $R^{T}(X-\mu) \sim N_{p}(0,I_{p})$:</p>
+
+<p>$$
+\begin{align}
+X &amp;\sim N_{p}(\mu,\Sigma) \\<br />
+(X-\mu) = Y &amp;\sim N_{p}(0,\Sigma)\\<br />
+R^{T}Y = Z &amp;\sim N_{p}(0, R^{T} \Sigma R) \\<br />
+&amp;\sim N_{p}(0, \Lambda^{\frac{-1}{2}} U^{T} (U \Lambda U^{T}) U \Lambda^{\frac{-1}{2}}) \\<br />
+&amp;\sim N_{p}(0, \Lambda^{\frac{-1}{2}} I_{p} \Lambda I_{p} \Lambda^{\frac{-1}{2}}) \\<br />
+&amp;\sim N_{p}(0,I_{p})
+\end{align}
+$$</p>
+
+<p>so that we have</p>
+
+<p>$$\begin{align}
+&amp;= (X-\mu)\Sigma^{-1}(X-\mu)^{T} \\<br />
+&amp;= (X-\mu)RR^{T}(X-\mu)^{T} \\<br />
+&amp;= Z^{T}Z
+\end{align}$$</p>
+
+<p>the sum of $p$ standard Normal random variables, which is the definition of a $\chi_{p}^{2}$ distribution with $p$ degrees of freedom.  So, given that we start with a $MVN$ random variable, the squared Mahalanobis distance is $\chi^{2}_{p}$ distributed.  Because the sample mean and sample covariance are consistent estimators of the population mean and population covariance parameters, we can use these estimates in our computation of the Mahalanobis distance.</p>
+
+<p>Also, of particular importance is the fact that the Mahalanobis distance is <strong>not symmetric</strong>.  That is to say, if we define the Mahalanobis distance as:</p>
+
+<p>$$
+\begin{align}
+M(A, B) = \sqrt{(A - \mu(B))\Sigma(B)^{-1}(A-\mu(B))^{T}}
+\end{align}
+$$</p>
+
+<p>then $M(A,B) \neq M(B,A)$, clearly.  Because the parameter estimates are not guaranteed to be the same, it&rsquo;s straightforward to see why this is the case.</p>
+
+<p>Now, back to the task at hand.  For a specified target region, $l_{T}$, with a set of vertices, $V_{T} = {v \; : \; l(v) \; = \; l_{T}, \; \forall \; v \in V}$, each with their own distinct connectivity fingerprints, I want to explore which areas of the cortex have connectivity fingerprints that are different from or similar to $l_{T}$&rsquo;s features, in distribution.  I can do this by using the Mahalanobis Distance.  And based on the analysis I showed above, we know that the data-generating process of these distances is related to the $\chi_{p}^{2}$ distribution.</p>
+
+<p>First, I&rsquo;ll estimate the covariance matrix, $\Sigma_{T}$, of our target region, $l_{T}$, using the <a href="http://perso.ens-lyon.fr/patrick.flandrin/LedoitWolf_JMA2004.pdf">Ledoit-Wolf estimator</a> (the shrunken covariance estimate has been shown to be a more reliable estimate of the population covariance), and mean connectivity fingerprint, $\mu_{T}$.  Then, I&rsquo;ll compute $d^{2} = M^{2}(A,A)$ for every $\{v: v \in V_{T}\}$.  The empirical distribution of these distances should follow a $\chi_{p}^{2}$ distribution.  If we wanted to do hypothesis testing, we would use this distribution as our null distribution.</p>
+
+<p>Next, in order to assess whether this intra-regional similarity is actually informative, I&rsquo;ll also compute the similarity of $l_{T}$ to every other region, $\{ l_{k} \; : \; \forall \; k \in L \setminus \{T\} \}$ &ndash; that is, I&rsquo;ll compute $M^{2}(A, B) \; \forall \; B \in L \setminus T$.  If the connectivity samples of our region of interest are as similar to one another as they are to other regions, then $d^{2}$ doesn&rsquo;t really offer us any discriminating information &ndash; I don&rsquo;t expect this to be the case, but we need to verify this.</p>
+
+<p>Then, as a confirmation step to ensure that our empirical data actually follows the theoretical $\chi_{p}^{2}$ distribution, I&rsquo;ll compute the location and scale <a href="https://en.wikipedia.org/wiki/Maximum_likelihood_estimation">Maximumim Likelihood</a>(MLE) parameter estimates of our $d^{2}$ distribution, keeping the <em>d.o.f.</em> (e.g. $p$) fixed.</p>
+
+<p>See below for Python code and figures&hellip;</p>
+
+<h3 id="step-1-compute-parameter-estimates">Step 1: Compute Parameter Estimates</h3>
+
+<pre><code class="language-python">%matplotlib inline
+import matplotlib.pyplot as plt
+
+from matplotlib import rc
+rc('text', usetex=True)
+
+import numpy as np
+from scipy.spatial.distance import cdist
+from scipy.stats import chi2, probplot
+
+from sklearn import covariance
+</code></pre>
+
+<pre><code class="language-python"># lab_map is a dictionary, mapping label values to sample indices
+# our region of interest has a label of 8
+LT = 8
+
+# get indices for region LT, and rest of brain
+lt_indices = lab_map[LT]
+rb_indices = np.concatenate([lab_map[k] for k in lab_map.keys() if k != LT])
+
+data_lt = conn[lt_indices, :]
+data_rb = conn[rb_indices, :]
+
+# fit covariance and precision matrices
+# Shrinkage factor = 0.2
+cov_lt = covariance.ShrunkCovariance(assume_centered=False, shrinkage=0.2)
+cov_lt.fit(data_lt)
+P = cov_lt.precision_
+</code></pre>
+
+<p>Next, compute the Mahalanobis Distances:</p>
+
+<pre><code class="language-python"># LT to LT Mahalanobis Distance
+dist_lt = cdist(data_lt, data_lt.mean(0)[None,:], metric='mahalanobis', VI=P)
+dist_lt2 = dist_lt**2
+
+# fit covariance estimate for every region in cortical map
+EVs = {l: covariance.ShrunkCovariance(assume_centered=False, 
+        shrinkage=0.2) for l in labels}
+
+for l in lab_map.keys():
+    EVs[l].fit(conn[lab_map[l],:])
+
+# compute d^2 from LT to every cortical region
+# save distances in dictionary
+lt_to_brain = {}.fromkeys(labels)
+for l in lab_map.keys():
+
+    temp_data = conn[label_map[l], :]
+    temp_mu = temp_data.mean(0)[None, :]
+
+    temp_mh = cdist(data_lt, temp_mu, metric='mahalanobis', VI=EVs[l].precision_)
+    temp_mh2 = temp_mh**2
+
+    lt_to_brain[l] = temp_mh2
+
+# plot distributions seperate (scales differ)
+fig = plt.subplots(2,1, figsize=(12,12))
+plt.subplot(2,1,1)
+plt.hist(lt_to_brain[LT], 50, density=True, color='blue', 
+    label='Region-to-Self', alpha=0.7)
+
+plt.subplot(2,1,2)
+for l in labels:
+    if l != LT:
+        plt.hist(lt_to_brain[l], 50, density=True, linewidth=2, 
+            alpha=0.4, histtype='step')
+</code></pre>
+
+<figure>
+    <img src='{{site.baseurl}}/img/mahalanobis/IntraInterMahal.jpg' class="center-image"/>
+    <figcaption>Empirical distributions of within-region (top) and between-region (bottom) $d^{2}$ values.  Each line is the distribution of the distance of samples in our ROI to a whole region.</figcaption>
+</figure>
+
+<p>As expected, the distribution of $d^{2}$ the distance of samples in our region of interest, $l_{T}$, to distributions computed from other regions are (considerably) larger and much more variable, while the profile of points within $l_{T}$ looks to have much smaller variance &ndash; this is good!  This means that we have high intra-regional similarity when compared to inter-regional similarities.  This fits what&rsquo;s known in neuroscience as the <a href="https://www.ncbi.nlm.nih.gov/pubmed/9651489">&ldquo;cortical field hypothesis&rdquo;</a>.</p>
+
+<h3 id="step-2-distributional-qc-check">Step 2: Distributional QC-Check</h3>
+
+<p>Because we know that our data should follow a $\chi^{2}_{p}$ distribution, we can fit the MLE estimate of our location and scale parameters, while keeping  the $df$ parameter fixed.</p>
+
+<pre><code class="language-python">p = data_lt.shape[1]
+mle_chi2_theory = chi2.fit(dist_lt2, fdf=p)
+
+xr = np.linspace(data_lt.min(), data_lt.max(), 1000)
+pdf_chi2_theory(xr, *mle_chi2_theory)
+
+fig = plt.subplot(1,2,2,figsize=(18, 6))
+
+# plot theoretical vs empirical null distributon
+plt.subplot(1,2,1)
+plt.hist(data_lt, density=True, color='blue', alpha=0.6,
+    label = 'Empirical')
+plt.plot(xr, pdf_chi2_theory, color='red',
+    label = '$\chi^{2}_{p}')
+
+# plot QQ plot of empirical distribution
+plt.subplot(1,2,2)
+probplot(D2.squeeze(), sparams=mle_chi2_theory, dist=chi2, plot=plt);
+</code></pre>
+
+<figure>
+    <img src='{{site.baseurl}}/img/mahalanobis/Density.QQPlot.png' class="center-image" width="100%"/>
+    <figcaption>Density and QQ plot of null distribution.</figcaption>
+</figure>
+
+<p>From looking at the QQ plot, we see that the empirical density fits the theoretical density pretty well, but there is some evidence that the empirical density has heavier tails.  The heavier tail of the upper quantile could probability be explained by acknowledging that our starting cortical map is not perfect (in fact there is no &ldquo;gold-standard&rdquo; cortical map).  Cortical regions do not have discrete cutoffs, although there are reasonably steep <a href="https://www.ncbi.nlm.nih.gov/pubmed/25316338">gradients in connectivity</a>.  If we were to include samples that were considerably far away from the the rest of the samples, this would result in inflated densities of higher $d^{2}$ values.</p>
+
+<p>Likewise, we also made the distributional assumption that our connectivity vectors were multivariate normal &ndash; this might not be true &ndash; in which case our assumption that $$d^{2}$$ follows a $\chi^{2}_{p}$ would also not hold.</p>
+
+<p>Finally, let&rsquo;s have a look at some brains!  Below, is the region we used as our target &ndash; the connectivity profiles from vertices in this region were used to compute our mean vector and covariance matrix &ndash; we compared the rest of the brain to this region.</p>
+
+<figure>
+    <img src='{{site.baseurl}}/img/mahalanobis/Region_LT.png' class="center-image" width="100%"/>
+    <figcaption>Region of interest.</figcaption>
+</figure>
+
+<figure>
+    <img src='{{site.baseurl}}/img/mahalanobis/MahalanobisDistance.png' class="center-image" width="100%"/>
+    <figcaption>Estimated squared Mahalanobis distances, overlaid on cortical surface.</figcaption>
+</figure>
+
+<p>Here, larger $d^{2}$ values are in red, and smaller $d^{2}$ are in black.  Interestingly, we do see pretty large variance of $d^{2}$ spread across the cortex &ndash; however the values are smoothly varying, but there do exists sharp boundaries.  We kind of expected this &ndash; some regions, though geodesically far away, should have similar connectivity profiles if they&rsquo;re connected to the same regions of the cortex.  However, the regions with connectivity profiles most different than our target region are not only contiguous (they&rsquo;re not noisy), but follow known anatomical boundaries, as shown by the overlaid boundary map.</p>
+
+<p>This is interesting stuff &ndash; I&rsquo;d originally intended on just learning more about the Mahalanobis Distance as a measure, and exploring its distributional properties &ndash; but now that I see these results, I think it&rsquo;s definitely worth exploring further!</p><ul class="pa0">
+  
+</ul>
+<div class="mt6">
+      
+      
+      </div>
+    </section>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+    <script type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+     inlineMath: [['$','$'], ['\\(','\\)']],
+     displayMath: [['$$','$$']],
+     processEscapes: true,
+     processEnvironments: true,
+     skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+     TeX: { equationNumbers: { autoNumber: "AMS" },
+            extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+</script>
+    
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://kristianeschenburg.github.io" >
+    &copy; 2019 A Rambling On
+  </a>
+    <div>
+
+
+
+<a href="https://twitter.com/keschh" target="_blank" class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel="noopener" aria-label="follow on Twitter——Opens in a new window">
+  <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/></svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+<a href="https://www.linkedin.com/in/kristianeschenburg/" target="_blank" class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel="noopener" aria-label="follow on LinkedIn——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 65 65;" version="1.1" viewBox="0 0 65 65" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M50.837,48.137V36.425c0-6.275-3.35-9.195-7.816-9.195  c-3.604,0-5.219,1.983-6.119,3.374V27.71h-6.79c0.09,1.917,0,20.427,0,20.427h6.79V36.729c0-0.609,0.044-1.219,0.224-1.655  c0.49-1.22,1.607-2.483,3.482-2.483c2.458,0,3.44,1.873,3.44,4.618v10.929H50.837z M22.959,24.922c2.367,0,3.842-1.57,3.842-3.531  c-0.044-2.003-1.475-3.528-3.797-3.528s-3.841,1.524-3.841,3.528c0,1.961,1.474,3.531,3.753,3.531H22.959z M34,64  C17.432,64,4,50.568,4,34C4,17.431,17.432,4,34,4s30,13.431,30,30C64,50.568,50.568,64,34,64z M26.354,48.137V27.71h-6.789v20.427  H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+<a href="https://github.com/kristianeschenburg" target="_blank" class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel="noopener" aria-label="follow on Github——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+</div>
+  </div>
+</footer>
+
+    
+
+  <script src="/dist/js/app.3fc0f988d21662902933.js"></script>
+
+
+  </body>
+
+</html>
